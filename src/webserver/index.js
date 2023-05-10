@@ -9,6 +9,6 @@ app.get('/', (req, res) => {
     res.sendFile('index.html');
 });
 
-app.listen(3000, () => {
+app.listen(80, () => {
     console.log('Server is listening on port 3000');
 });
