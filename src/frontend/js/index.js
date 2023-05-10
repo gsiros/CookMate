@@ -4,7 +4,8 @@ const heatbutton = document.getElementById('heatbutton');
 const defrostbutton = document.getElementById('defrostbutton');
 const presetsbutton = document.getElementById('presetsbutton');
 
-
+const heatdefrostinterface = document.getElementById('heatinterface');
+const presetsinterface = document.getElementById('presetsinterface');
 
 heatbutton.addEventListener('click', () => {
     // Make bg color orange:
@@ -27,6 +28,8 @@ heatbutton.addEventListener('click', () => {
     presetsbutton.style.borderRight = "5px solid #B3B3B3";
 
     // Change UI to Reheat UI.
+    heatdefrostinterface.style.display = "flex";
+    presetsinterface.style.display = "none";
 });
 
 defrostbutton.addEventListener('click', () => {
@@ -49,6 +52,8 @@ defrostbutton.addEventListener('click', () => {
     presetsbutton.style.borderBottom = "5px solid #B3B3B3";
     presetsbutton.style.borderRight = "5px solid #B3B3B3";
     // Change UI to Defrost UI.
+    heatdefrostinterface.style.display = "flex";
+    presetsinterface.style.display = "none";
 });
 
 presetsbutton.addEventListener('click', () => {
@@ -71,4 +76,6 @@ presetsbutton.addEventListener('click', () => {
     presetsbutton.style.borderBottom = "none";
     presetsbutton.style.borderRight = "none";
     // Change UI to Presets UI.
+    heatdefrostinterface.style.display = "none";
+    presetsinterface.style.display = "flex";
 });

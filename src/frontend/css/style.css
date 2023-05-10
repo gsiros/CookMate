@@ -173,3 +173,34 @@
 #stopBtn {
     background-color: #E32424;
 }
+
+#presetsinterface {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.5vh;
+}
+
+.presetcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 59vw;
+    height: 26.2vh;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+
+.presetgraphic {
+    width: 100%;
+    height: 75%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    object-fit: cover;
+}
+
+.presettext {
+    font-size: 60pt;
+    height: 25%;
+    margin-top: auto;
+    padding: 10px;
+}
