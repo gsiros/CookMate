@@ -1,3 +1,8 @@
+@font-face{
+    font-family:'digital-clock-font';
+    src: url('../fonts/digital-7.ttf');
+}
+
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -44,4 +49,127 @@
 #navbar div:last-child {
     border-bottom-right-radius: 20px;
     border-right: 5px solid #B3B3B3;
+}
+
+#interfacecontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+#heatinterface {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.5vh;
+}
+
+#heatinterfacebody {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5vh;
+}
+
+#heatTimer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #D9D9D9;
+    width: 59vw;
+    height: 24vh;
+    border-radius: 20px;
+}
+
+.timerBtnContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 70pt;
+    height: 5vh;
+}
+
+.timerBtn {
+    color: #959494;
+    border: 5px solid #B3B3B3;
+    width: 100%;
+    text-align: center;
+}
+
+#addMoreTimeBtnLeft {
+    border-top-left-radius: 20px;
+}
+
+#addMoreTimeBtnRight {
+    border-top-Right-radius: 20px;
+}
+
+#subMoreTimeBtnLeft {
+    border-bottom-left-radius: 20px;
+}
+
+#subMoreTimeBtnRight {
+    border-bottom-Right-radius: 20px;
+}
+
+.lcdDisplay {
+    
+    border: 5px solid black;
+    width: 100%;
+    height: 14vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#lcdText {
+    font-size: 180pt;
+    font-family: 'digital-clock-font';
+    text-align: center;
+}
+
+.modifierBtn {
+    font-size: 60pt;
+    width: 59vw;
+    height: 9vh;
+    color: black;
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+#heatAdd2 {
+    background-color: #B3B3B3;
+}
+
+#stopgocontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10vw;
+}
+
+.actionBtn {
+    color: white;
+    font-size: 60pt;
+    width: 33.8vw;
+    height: 9.3vh;
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+#startBtn {
+    background-color: #6FCC79;
+}
+
+#stopBtn {
+    background-color: #E32424;
 }
