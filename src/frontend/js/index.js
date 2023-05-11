@@ -7,6 +7,19 @@ const presetsbutton = document.getElementById('presetsbutton');
 const heatdefrostinterface = document.getElementById('heatinterface');
 const presetsinterface = document.getElementById('presetsinterface');
 
+const startBtn = document.getElementById('startBtn');
+const clearBtn = document.getElementById('clearBtn');
+const addMoreTimeBtnLeft = document.getElementById('addMoreTimeBtnLeft');
+const addMoreTimeBtnRight = document.getElementById('addMoreTimeBtnRight');
+const subMoreTimeBtnLeft = document.getElementById('subMoreTimeBtnLeft');
+const subMoreTimeBtnRight = document.getElementById('subMoreTimeBtnRight');
+const modifierBtn1 = document.getElementById('modifierBtn1');
+const modifierBtn2 = document.getElementById('modifierBtn2');
+const lcdText = document.getElementById('lcdText');
+
+let minutesLeft = 0;
+let secondsLeft = 0;
+
 const amount = 20; // amount to darken the background color of the element 
 
 function darkenColor(hexColor, amount) {
@@ -68,6 +81,18 @@ function rgbToHex(rgb) {
     return `#${red}${green}${blue}`;
 }
 
+function getRemainingTimeInClockFormat(minutesLeft, secondsLeft) {
+    let outMinutesLeft = minutesLeft;
+    let outSecondsLeft = secondsLeft;
+    if (minutesLeft < 10) {
+        outMinutesLeft = "0" + minutesLeft;
+    }
+    if (secondsLeft < 10) {
+        outSecondsLeft = "0" + secondsLeft;
+    }
+    return `${outMinutesLeft}:${outSecondsLeft}`;
+}
+
 // Simulate on touchstart and touchend events on all 'clickable' elements:
 
 const clickables = document.querySelectorAll('.clickable');
@@ -83,6 +108,8 @@ clickables.forEach((clickable) => {
         clickable.style.backgroundColor = lightenColor(rgbToHex(window.getComputedStyle(clickable).backgroundColor), amount)
     });
 });
+
+// Navigation bar mechancis:
 
 heatbutton.addEventListener('click', () => {
     // Make bg color orange:
@@ -155,4 +182,70 @@ presetsbutton.addEventListener('click', () => {
     // Change UI to Presets UI.
     heatdefrostinterface.style.display = "none";
     presetsinterface.style.display = "flex";
+});
+
+// Timer UI backend:
+
+addMoreTimeBtnLeft.addEventListener('click', () => {
+    // Increase the time by 1 minute:
+    minutesLeft += 1;
+    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);
+});
+
+addMoreTimeBtnRight.addEventListener('click', () => {
+    // Increase the time by 1 second:
+    secondsLeft += 1;
+    // If secondsLeft is 60, reset it to 0 and increase minutesLeft by 1:
+    if(secondsLeft == 60){
+        secondsLeft = 0;
+        minutesLeft += 1;
+    }
+    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);
+});
+
+subMoreTimeBtnLeft.addEventListener('click', () => {
+    // Decrease the time by 1 minute:
+    if(minutesLeft != 0){
+        minutesLeft -= 1;
+        lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+    }
+});
+
+subMoreTimeBtnRight.addEventListener('click', () => {
+    // Decrease the time by 1 second:
+    if(minutesLeft > 0 || secondsLeft > 0){
+        // If secondsLeft is 0, reset it to 59 and decrease minutesLeft by 1:
+        if(secondsLeft == 0){
+            secondsLeft = 59;
+            if(minutesLeft != 0){
+                minutesLeft -= 1;   
+            }
+        } else {
+            secondsLeft -= 1;
+        }
+        lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+    }
+});
+
+modifierBtn1.addEventListener('click', () => {
+    // Increase secondsLeft by 30:
+    secondsLeft += 30;
+    if(secondsLeft >= 60){
+        secondsLeft -= 60;
+        minutesLeft += 1;
+    }
+    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+});
+
+modifierBtn2.addEventListener('click', () => {
+    // Increase minutesLeft by 1:
+    minutesLeft += 1;
+    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+});
+
+clearBtn.addEventListener('click', () => {
+    // Reset the timer:
+    minutesLeft = 0;
+    secondsLeft = 0;
+    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
 });
