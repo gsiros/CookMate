@@ -7,6 +7,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.shadow {
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+}
+
 #navbar {
     display: flex;
     flex-direction: row;
@@ -14,8 +18,6 @@
     justify-content: space-between;
     width: 100%;
     height: 10vh;
-    /* make box shadow only towards the bottom : */
-    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
@@ -143,7 +145,7 @@
     border-radius: 20px;
 }
 
-#modifierBtn1 {
+#modifierBtn2 {
     background-color: #B3B3B3;
 }
 
@@ -156,6 +158,7 @@
 
 .actionBtn {
     color: white;
+    font-weight: bold;
     font-size: 60pt;
     width: 33.8vw;
     height: 9.3vh;
@@ -186,7 +189,6 @@
     flex-direction: column;
     width: 59vw;
     height: 26.2vh;
-    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 }
 
