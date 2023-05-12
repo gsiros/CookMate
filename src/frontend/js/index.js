@@ -1,5 +1,6 @@
 // JS file for the frontend
 
+const navbar = document.getElementById('navbar');
 const heatbutton = document.getElementById('heatbutton');
 const defrostbutton = document.getElementById('defrostbutton');
 const presetsbutton = document.getElementById('presetsbutton');
@@ -17,6 +18,15 @@ const modifierBtn1 = document.getElementById('modifierBtn1');
 const modifierBtn2 = document.getElementById('modifierBtn2');
 const lcdText = document.getElementById('lcdText');
 
+const heatTimer = document.getElementById('heatTimer');
+const timerBtnContainers = document.querySelectorAll('.timerBtnContainer');
+const stopgocontainer = document.getElementById('stopgocontainer');
+
+let state = 0; // 0-heat, 1-defrost, 2-presets
+let colors = ["#FF7D05", "#05A5FF", "#DA05FD"]; // the colors of the buttons in the navbar in each state
+let action = ["REHEAT", "DEFROST", "PRESET"]
+let actsLikeStart = true;
+let pausedState = false;
 let minutesLeft = 0;
 let secondsLeft = 0;
 let timeout = null;
@@ -148,6 +158,8 @@ heatbutton.addEventListener('click', () => {
     // Change UI to Reheat UI.
     heatdefrostinterface.style.display = "flex";
     presetsinterface.style.display = "none";
+
+    state = 0;
 });
 
 defrostbutton.addEventListener('click', () => {
@@ -172,6 +184,8 @@ defrostbutton.addEventListener('click', () => {
     // Change UI to Defrost UI.
     heatdefrostinterface.style.display = "flex";
     presetsinterface.style.display = "none";
+
+    state = 1;
 });
 
 presetsbutton.addEventListener('click', () => {
@@ -196,6 +210,8 @@ presetsbutton.addEventListener('click', () => {
     // Change UI to Presets UI.
     heatdefrostinterface.style.display = "none";
     presetsinterface.style.display = "flex";
+    
+    state = 2;
 });
 
 // Timer UI backend:
@@ -262,15 +278,35 @@ clearBtn.addEventListener('click', () => {
     if(timeout != null){
         clearTimeout(timeout);
         timeout = null;
+        revertToNormalUI();
     }   
     minutesLeft = 0;
     secondsLeft = 0;
     lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft); 
+    revertToNormalUI();
 });
 
 startBtn.addEventListener('click', () => {
     // Start the timer:
-    startCountdown();
+    if(actsLikeStart){
+        startCountdown();
+        cheangeToCountdownUI();
+    } else {
+        pausedState = !pausedState;
+        if(pausedState){
+            clearTimeout(timeout);
+            timeout = null;
+            startBtn.innerHTML = "RESUME";
+            // enable blinking:
+            enableBlinkingText();
+        } else {
+            startCountdown();
+            startBtn.innerHTML = "PAUSE";
+            // disable blinking:
+            disableBlinkingText();
+        }   
+    }
+    
 });
 
 function startCountdown(){
@@ -279,6 +315,96 @@ function startCountdown(){
         subtractOneSecond();
         if(minutesLeft > 0 || secondsLeft > 0){
             startCountdown();
+        } else {
+            revertToNormalUI();
         }
     }, 1000);
+}
+
+function enableBlinkingText(){
+    lcdText.classList.add("blink");    
+}
+
+function disableBlinkingText(){
+    lcdText.classList.remove("blink");
+}
+
+// Prepare the interface for the countdown:
+/*
+    1) Make heatTimer height equal to the timer's.
+    2) Make timerBtn containers display="none".
+    3) Hide the modifier buttons.
+    4) make the start button become pause.
+
+*/
+
+function cheangeToCountdownUI(){
+    heatTimer.style.height = "14vh";
+    timerBtnContainers.forEach((element) => {
+        element.style.display = "none";
+    });
+    modifierBtn1.style.display = "none";
+    modifierBtn2.style.display = "none";
+
+    stopgocontainer.style.gap = "5vw";
+    
+    startBtn.innerHTML = "PAUSE";
+    startBtn.style.backgroundColor = "#D9D9D9";
+    startBtn.style.color = "black";
+    startBtn.style.width = "40vw";
+    actsLikeStart = !actsLikeStart;
+
+    clearBtn.innerHTML = "CANCEL";
+    clearBtn.style.width = "40vw";
+    pausedState = false;
+    disableNavigationBar();
+}
+
+function revertToNormalUI(){
+    heatTimer.style.height = "24vh";
+    timerBtnContainers.forEach((element) => {
+        element.style.display = "flex";
+    });
+    modifierBtn1.style.display = "flex";
+    modifierBtn2.style.display = "flex";
+
+    stopgocontainer.style.gap = "10vw";
+
+    startBtn.innerHTML = "START";
+    startBtn.style.backgroundColor = "#6FCC79";
+    startBtn.style.color = "white";
+    startBtn.style.width = "33.8vw";
+    actsLikeStart = !actsLikeStart;
+
+    clearBtn.innerHTML = "CLEAR";
+    clearBtn.style.width = "33.8vw";
+
+    pausedState = false;
+    disableBlinkingText();
+    enableNavigationBar();
+}
+
+function disableNavigationBar(){
+    heatbutton.style.display = "none";
+    defrostbutton.style.display = "none";
+    presetsbutton.style.display = "none";
+
+    const textContainer = document.createElement('div');
+    textContainer.innerHTML = `${action[state]} IN PROGRESS...`
+    textContainer.style.backgroundColor = colors[state];
+    textContainer.style.color = "white";
+    textContainer.style.borderBottomLeftRadius = "20px";
+    textContainer.style.borderBottomRightRadius = "20px";
+    textContainer.style.borderLeft = "5px solid #B3B3B3;"
+    textContainer.style.borderRight = "5px solid #B3B3B3;"    
+    textContainer.style.borderBottom = "5px solid #B3B3B3;"    
+    navbar.appendChild(textContainer)
+}
+
+function enableNavigationBar(){
+    heatbutton.style.display = "flex";
+    defrostbutton.style.display = "flex";
+    presetsbutton.style.display = "flex";
+
+    navbar.removeChild(navbar.lastChild);
 }
