@@ -23,7 +23,7 @@
 }
 
 #navbar div {
-    font-size: 40pt;
+    font-size: 6vw;
     color: #959494;
     background-color: #D9D9D9;
     height: 100%;
@@ -178,7 +178,7 @@
     background-color: #E32424;
 }
 
-#presetsinterface {
+#wattinterface {
     display: flex;
     flex-direction: column;
     align-items: center;

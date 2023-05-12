@@ -3,10 +3,10 @@
 const navbar = document.getElementById('navbar');
 const heatbutton = document.getElementById('heatbutton');
 const defrostbutton = document.getElementById('defrostbutton');
-const presetsbutton = document.getElementById('presetsbutton');
+const wattbutton = document.getElementById('wattbutton');
 
 const heatdefrostinterface = document.getElementById('heatinterface');
-const presetsinterface = document.getElementById('presetsinterface');
+const wattinterface = document.getElementById('wattinterface');
 
 const startBtn = document.getElementById('startBtn');
 const clearBtn = document.getElementById('clearBtn');
@@ -22,7 +22,7 @@ const heatTimer = document.getElementById('heatTimer');
 const timerBtnContainers = document.querySelectorAll('.timerBtnContainer');
 const stopgocontainer = document.getElementById('stopgocontainer');
 
-let state = 0; // 0-heat, 1-defrost, 2-presets
+let state = 0; // 0-heat, 1-defrost, 2-watt
 let colors = ["#FF7D05", "#05A5FF", "#DA05FD"]; // the colors of the buttons in the navbar in each state
 let action = ["REHEAT", "DEFROST", "PRESET"]
 let actsLikeStart = true;
@@ -140,7 +140,7 @@ heatbutton.addEventListener('click', () => {
     // Make bg color orange:
     heatbutton.style.backgroundColor = "#FF7D05";
     defrostbutton.style.backgroundColor = "#D9D9D9";
-    presetsbutton.style.backgroundColor = "#D9D9D9";
+    wattbutton.style.backgroundColor = "#D9D9D9";
     // Make text color white and bold:
     heatbutton.style.color = "#FFFFFF";
     heatbutton.style.fontWeight = "bold";
@@ -151,14 +151,14 @@ heatbutton.addEventListener('click', () => {
     defrostbutton.style.fontWeight = "normal";
     defrostbutton.style.borderBottom = "5px solid #B3B3B3";
     
-    presetsbutton.style.color = "#959494";
-    presetsbutton.style.fontWeight = "normal";
-    presetsbutton.style.borderBottom = "5px solid #B3B3B3";
-    presetsbutton.style.borderRight = "5px solid #B3B3B3";
+    wattbutton.style.color = "#959494";
+    wattbutton.style.fontWeight = "normal";
+    wattbutton.style.borderBottom = "5px solid #B3B3B3";
+    wattbutton.style.borderRight = "5px solid #B3B3B3";
 
     // Change UI to Reheat UI.
     heatdefrostinterface.style.display = "flex";
-    presetsinterface.style.display = "none";
+    wattinterface.style.display = "none";
 
     state = 0;
 });
@@ -167,7 +167,7 @@ defrostbutton.addEventListener('click', () => {
     // Make bg color blue:
     heatbutton.style.backgroundColor = "#D9D9D9";
     defrostbutton.style.backgroundColor = "#05A5FF";
-    presetsbutton.style.backgroundColor = "#D9D9D9";
+    wattbutton.style.backgroundColor = "#D9D9D9";
     // Make text color white and bold:
     heatbutton.style.color = "#959494";
     heatbutton.style.fontWeight = "normal";
@@ -178,22 +178,24 @@ defrostbutton.addEventListener('click', () => {
     defrostbutton.style.fontWeight = "bold";
     defrostbutton.style.borderBottom = "none";
     
-    presetsbutton.style.color = "#959494";
-    presetsbutton.style.fontWeight = "normal";
-    presetsbutton.style.borderBottom = "5px solid #B3B3B3";
-    presetsbutton.style.borderRight = "5px solid #B3B3B3";
+    wattbutton.style.color = "#959494";
+    wattbutton.style.fontWeight = "normal";
+    wattbutton.style.borderBottom = "5px solid #B3B3B3";
+    wattbutton.style.borderRight = "5px solid #B3B3B3";
     // Change UI to Defrost UI.
     heatdefrostinterface.style.display = "flex";
-    presetsinterface.style.display = "none";
+    wattinterface.style.display = "none";
 
     state = 1;
 });
 
-presetsbutton.addEventListener('click', () => {
+wattbutton.addEventListener('click', () => {
     // Make bg color orange:
     heatbutton.style.backgroundColor = "#D9D9D9";
     defrostbutton.style.backgroundColor = "#D9D9D9";
-    presetsbutton.style.backgroundColor = "#DA05FD";
+    //wattbutton.style.backgroundColor = "#DA05FD";
+    wattbutton.style.backgroundColor = "#008080";
+    
     // Make text color white and bold:
     heatbutton.style.color = "#959494";
     heatbutton.style.fontWeight = "normal";
@@ -204,13 +206,13 @@ presetsbutton.addEventListener('click', () => {
     defrostbutton.style.fontWeight = "normal";
     defrostbutton.style.borderBottom = "5px solid #B3B3B3";
     
-    presetsbutton.style.color = "#FFFFFF";
-    presetsbutton.style.fontWeight = "bold";
-    presetsbutton.style.borderBottom = "none";
-    presetsbutton.style.borderRight = "none";
-    // Change UI to Presets UI.
+    wattbutton.style.color = "#FFFFFF";
+    wattbutton.style.fontWeight = "bold";
+    wattbutton.style.borderBottom = "none";
+    wattbutton.style.borderRight = "none";
+    // Change UI to watt UI.
     heatdefrostinterface.style.display = "none";
-    presetsinterface.style.display = "flex";
+    wattinterface.style.display = "flex";
     
     state = 2;
 });
@@ -400,7 +402,7 @@ function revertToNormalUI(){
 function disableNavigationBar(){
     heatbutton.style.display = "none";
     defrostbutton.style.display = "none";
-    presetsbutton.style.display = "none";
+    wattbutton.style.display = "none";
 
     const textContainer = document.createElement('div');
     textContainer.innerHTML = `<p><b>${action[state]}</b> IN PROGRESS...</p>`;
@@ -417,7 +419,7 @@ function disableNavigationBar(){
 function enableNavigationBar(){
     heatbutton.style.display = "flex";
     defrostbutton.style.display = "flex";
-    presetsbutton.style.display = "flex";
+    wattbutton.style.display = "flex";
 
     navbar.removeChild(navbar.lastChild);
 }
