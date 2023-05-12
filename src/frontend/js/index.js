@@ -19,6 +19,7 @@ const lcdText = document.getElementById('lcdText');
 
 let minutesLeft = 0;
 let secondsLeft = 0;
+let timeout = null;
 
 const amount = 20; // amount to darken the background color of the element 
 
@@ -91,6 +92,22 @@ function getRemainingTimeInClockFormat(minutesLeft, secondsLeft) {
         outSecondsLeft = "0" + secondsLeft;
     }
     return `${outMinutesLeft}:${outSecondsLeft}`;
+}
+
+function subtractOneSecond(){
+    // Decrease the time by 1 second:
+    if(minutesLeft > 0 || secondsLeft > 0){
+        // If secondsLeft is 0, reset it to 59 and decrease minutesLeft by 1:
+        if(secondsLeft == 0){
+            secondsLeft = 59;
+            if(minutesLeft != 0){
+                minutesLeft -= 1;   
+            }
+        } else {
+            secondsLeft -= 1;
+        }
+        lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+    }
 }
 
 // Simulate on touchstart and touchend events on all 'clickable' elements:
@@ -245,7 +262,26 @@ modifierBtn2.addEventListener('click', () => {
 
 clearBtn.addEventListener('click', () => {
     // Reset the timer:
+    if(timeout != null){
+        clearTimeout(timeout);
+        timeout = null;
+    }   
     minutesLeft = 0;
     secondsLeft = 0;
-    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft); 
 });
+
+startBtn.addEventListener('click', () => {
+    // Start the timer:
+    startCountdown();
+});
+
+function startCountdown(){
+    timeout = setTimeout(() => {
+        // Decrease secondsLeft by 1:
+        subtractOneSecond();
+        if(minutesLeft > 0 || secondsLeft > 0){
+            startCountdown();
+        }
+    }, 1000);
+}
