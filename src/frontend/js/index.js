@@ -29,11 +29,8 @@ function darkenColor(hexColor, amount) {
   
     // Convert the hex color to RGB
     const r = parseInt(hexColor.substring(0, 2), 16);
-    console.log(hexColor.substring(0, 2))
     const g = parseInt(hexColor.substring(2, 4), 16);
-    console.log(hexColor.substring(2, 4))
     const b = parseInt(hexColor.substring(4, 6), 16);
-    console.log(hexColor.substring(4, 6))
   
     // Calculate the darkened RGB values
     const darkenedR = Math.max(r - amount, 0);
