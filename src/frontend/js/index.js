@@ -275,19 +275,19 @@ modifierBtn2.addEventListener('click', () => {
 });
 
 clearBtn.addEventListener('click', () => {
-    // Reset the timer:
-    if(timeout != null){
-        clearTimeout(timeout);
-        timeout = null;
+    if(inProgress){
+        // Reset the timer:
+        if(timeout != null){
+            clearTimeout(timeout);
+            timeout = null;
+        }   
+        inProgress = false;
         revertToNormalUI();
-    }   
+    }
+    // Reset the time:
     minutesLeft = 0;
     secondsLeft = 0;
     lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft); 
-    if(inProgress){
-        revertToNormalUI();
-        inProgress = !inProgress;
-    }
 });
 
 startBtn.addEventListener('click', () => {
@@ -296,7 +296,7 @@ startBtn.addEventListener('click', () => {
         if(minutesLeft !=0 || secondsLeft != 0){
             startCountdown();
             cheangeToCountdownUI();
-            inProgress = !inProgress;
+            inProgress = true;
         }
     } else {
         pausedState = !pausedState;
@@ -327,7 +327,7 @@ function startCountdown(){
             dingSound.autoplay = true;
             dingSound.play();
             revertToNormalUI();
-            inProgress = !inProgress;
+            inProgress = false;
             actsLikeStart = true;
         }
     }, 1000);
@@ -364,7 +364,7 @@ function cheangeToCountdownUI(){
     startBtn.style.backgroundColor = "#D9D9D9";
     startBtn.style.color = "black";
     startBtn.style.width = "40vw";
-    actsLikeStart = !actsLikeStart;
+    actsLikeStart = false;
 
     clearBtn.innerHTML = "CANCEL";
     clearBtn.style.width = "40vw";
@@ -386,7 +386,7 @@ function revertToNormalUI(){
     startBtn.style.backgroundColor = "#6FCC79";
     startBtn.style.color = "white";
     startBtn.style.width = "33.8vw";
-    actsLikeStart = !actsLikeStart;
+    actsLikeStart = true;
 
     clearBtn.innerHTML = "CLEAR";
     clearBtn.style.width = "33.8vw";
