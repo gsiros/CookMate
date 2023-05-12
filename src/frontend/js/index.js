@@ -390,7 +390,7 @@ function disableNavigationBar(){
     presetsbutton.style.display = "none";
 
     const textContainer = document.createElement('div');
-    textContainer.innerHTML = `${action[state]} IN PROGRESS...`
+    textContainer.innerHTML = `<p><b>${action[state]}</b> IN PROGRESS...</p>`;
     textContainer.style.backgroundColor = colors[state];
     textContainer.style.color = "white";
     textContainer.style.borderBottomLeftRadius = "20px";
