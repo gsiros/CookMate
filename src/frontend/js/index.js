@@ -27,6 +27,7 @@ let colors = ["#FF7D05", "#05A5FF", "#DA05FD"]; // the colors of the buttons in 
 let action = ["REHEAT", "DEFROST", "PRESET"]
 let actsLikeStart = true;
 let pausedState = false;
+let inProgress = false;
 let minutesLeft = 0;
 let secondsLeft = 0;
 let timeout = null;
@@ -283,14 +284,20 @@ clearBtn.addEventListener('click', () => {
     minutesLeft = 0;
     secondsLeft = 0;
     lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft); 
-    revertToNormalUI();
+    if(inProgress){
+        revertToNormalUI();
+        inProgress = !inProgress;
+    }
 });
 
 startBtn.addEventListener('click', () => {
     // Start the timer:
     if(actsLikeStart){
-        startCountdown();
-        cheangeToCountdownUI();
+        if(minutesLeft !=0 || secondsLeft != 0){
+            startCountdown();
+            cheangeToCountdownUI();
+            inProgress = !inProgress;
+        }
     } else {
         pausedState = !pausedState;
         if(pausedState){
@@ -317,6 +324,8 @@ function startCountdown(){
             startCountdown();
         } else {
             revertToNormalUI();
+            inProgress = !inProgress;
+            actsLikeStart = true;
         }
     }, 1000);
 }
@@ -380,6 +389,7 @@ function revertToNormalUI(){
     clearBtn.style.width = "33.8vw";
 
     pausedState = false;
+    actsLikeStart = true;
     disableBlinkingText();
     enableNavigationBar();
 }
