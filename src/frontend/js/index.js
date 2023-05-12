@@ -323,6 +323,9 @@ function startCountdown(){
         if(minutesLeft > 0 || secondsLeft > 0){
             startCountdown();
         } else {
+            let dingSound = new Audio("sound/ding.mp3");
+            dingSound.autoplay = true;
+            dingSound.play();
             revertToNormalUI();
             inProgress = !inProgress;
             actsLikeStart = true;
