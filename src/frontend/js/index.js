@@ -22,6 +22,13 @@ const heatTimer = document.getElementById('heatTimer');
 const timerBtnContainers = document.querySelectorAll('.timerBtnContainer');
 const stopgocontainer = document.getElementById('stopgocontainer');
 
+const addMoreWattBtn = document.getElementById('addMoreWattBtn');
+const subMoreWattBtn = document.getElementById('subMoreWattBtn');
+const lcdWattText = document.getElementById('lcdWattText');
+const modifierWattBtn1 = document.getElementById('modifierWattBtn1');
+const modifierWattBtn2 = document.getElementById('modifierWattBtn2');
+const modifierWattBtn3 = document.getElementById('modifierWattBtn3');
+
 let state = 0; // 0-heat, 1-defrost, 2-watt
 let colors = ["#FF7D05", "#05A5FF", "#DA05FD"]; // the colors of the buttons in the navbar in each state
 let action = ["REHEAT", "DEFROST", "PRESET"]
@@ -31,6 +38,11 @@ let inProgress = false;
 let minutesLeft = 0;
 let secondsLeft = 0;
 let timeout = null;
+let wattage = 600; // default wattage is 600W and maximum is 1200W
+const wattageStep = 50;
+const wattageLOW = 600;
+const wattageMEDIUM = 850;
+const wattageHIGH = 1200;
 
 const amount = 20; // amount to darken the background color of the element 
 
@@ -215,6 +227,7 @@ wattbutton.addEventListener('click', () => {
     wattinterface.style.display = "flex";
     
     state = 2;
+    lcdWattText.innerHTML = wattage;
 });
 
 // Timer UI backend:
@@ -316,6 +329,34 @@ startBtn.addEventListener('click', () => {
         }   
     }
     
+});
+
+addMoreWattBtn.addEventListener('click', () => {
+    // Increase the wattage by step:
+    if(wattage < wattageHIGH){
+        wattage += wattageStep;
+        lcdWattText.innerHTML = wattage;
+    }
+});
+
+subMoreWattBtn.addEventListener('click', () => {
+    // Decrease the wattage by step:
+    if(wattage > wattageLOW){
+        wattage -= wattageStep;
+        lcdWattText.innerHTML = wattage;
+    }
+});
+
+modifierWattBtn1.addEventListener('click', () => {
+    lcdWattText.innerHTML = wattageLOW;
+});
+
+modifierWattBtn2.addEventListener('click', () => {
+    lcdWattText.innerHTML = wattageMEDIUM;
+});
+
+modifierWattBtn3.addEventListener('click', () => {
+    lcdWattText.innerHTML = wattageHIGH;
 });
 
 function startCountdown(){
