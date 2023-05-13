@@ -259,6 +259,8 @@ subMoreTimeBtnLeft.addEventListener('click', () => {
     if(minutesLeft != 0){
         minutesLeft -= 1;
         lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+    } else {
+        showPopupDialog("Time cannot be less than 0 minutes.");
     }
 });
 
@@ -275,6 +277,8 @@ subMoreTimeBtnRight.addEventListener('click', () => {
             secondsLeft -= 1;
         }
         lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+    } else {
+        showPopupDialog("Time cannot be less than 0 minutes.");
     }
 });
 
@@ -317,6 +321,8 @@ startBtn.addEventListener('click', () => {
             startCountdown();
             cheangeToCountdownUI();
             inProgress = true;
+        } else {
+            showPopupDialog("Please set a valid time first. The time needs to be greater than 00:00.")
         }
     } else {
         pausedState = !pausedState;
@@ -411,6 +417,7 @@ function disableBlinkingText(){
 
 function cheangeToCountdownUI(){
     heatTimer.style.height = "14vh";
+    heatTimer.style.gridTemplateRows = "1fr";
     timerBtnContainers.forEach((element) => {
         element.style.display = "none";
     });
@@ -433,6 +440,7 @@ function cheangeToCountdownUI(){
 
 function revertToNormalUI(){
     heatTimer.style.height = "24vh";
+    heatTimer.style.gridTemplateRows = "1fr 3fr 1fr";
     timerBtnContainers.forEach((element) => {
         element.style.display = "flex";
     });
