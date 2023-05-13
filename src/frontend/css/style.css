@@ -71,13 +71,13 @@
 #heatinterfacebody {
     display: flex;
     flex-direction: column;
-    gap: 3.5vh;
+    gap: 4vh;
 }
 
 #heatTimer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 3fr 1fr;
     background-color: #D9D9D9;
     width: 59vw;
     height: 24vh;
@@ -90,7 +90,7 @@
     justify-content: space-around;
     width: 100%;
     font-size: 70pt;
-    height: 5vh;
+    height: 100%;
 }
 
 .timerBtn {
@@ -99,29 +99,38 @@
     border: 5px solid #B3B3B3;
     width: 100%;
     text-align: center;
+    box-sizing: border-box;
 }
 
 #addMoreTimeBtnLeft {
     border-top-left-radius: 20px;
+    align-self: center;
+    justify-self: center;
 }
 
 #addMoreTimeBtnRight {
     border-top-Right-radius: 20px;
+    align-self: center;
+    justify-self: center;
 }
 
 #subMoreTimeBtnLeft {
     border-bottom-left-radius: 20px;
+    align-self: center;
+    justify-self: center;
 }
 
 #subMoreTimeBtnRight {
     border-bottom-Right-radius: 20px;
+    align-self: center;
+    justify-self: center;
 }
 
 .lcdDisplay {
     
     border: 5px solid black;
     width: 100%;
-    height: 14vh;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -132,6 +141,8 @@
     font-size: 180pt;
     font-family: 'digital-clock-font';
     text-align: center;
+        display: flex;
+    align-self: center;
 }
 
 .modifierBtn {
@@ -177,6 +188,8 @@
 #clearBtn {
     background-color: #E32424;
 }
+
+
 
 #wattinterface {
     display: flex;
@@ -226,3 +239,84 @@
     }
 }
 
+#wattinterfacebody {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5vh;
+}
+
+#helperContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wattCounter {
+    border: 5px solid black;
+    width: 100%;
+    height: 14vh;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    box-sizing: border-box;
+}
+
+.wattCounter * {
+    font-family: 'digital-clock-font';
+}
+
+#lcdWattText {
+    font-size: 180pt;
+    text-align: center;
+    margin-left: auto;
+    display: flex;
+    align-self: center;
+}
+
+#lcdWatt {
+    font-size: 50pt;
+    display: flex;
+    align-self: flex-end;
+}
+
+#wattCount {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #D9D9D9;
+    width: 59vw;
+    height: auto;
+    border-radius: 20px;
+}
+
+
+#addMoreWattBtn {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+#subMoreWattBtn {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+#confirmBtn {
+    background-color: #6FCC79;
+}
+
+#modifierWattBtn1 {
+    background-color: #6FCC79;
+}
+
+#modifierWattBtn2 {
+    background-color: #f8f52a;
+}
+
+#modifierWattBtn3 {
+    background-color: #f97b32; 
+    color: white;   
+}
