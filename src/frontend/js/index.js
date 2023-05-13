@@ -210,7 +210,6 @@ wattbutton.addEventListener('click', () => {
     // Make bg color orange:
     heatbutton.style.backgroundColor = "#D9D9D9";
     defrostbutton.style.backgroundColor = "#D9D9D9";
-    //wattbutton.style.backgroundColor = "#DA05FD";
     wattbutton.style.backgroundColor = "#008080";
     
     // Make text color white and bold:
