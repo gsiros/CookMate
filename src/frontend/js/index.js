@@ -29,6 +29,11 @@ const modifierWattBtn1 = document.getElementById('modifierWattBtn1');
 const modifierWattBtn2 = document.getElementById('modifierWattBtn2');
 const modifierWattBtn3 = document.getElementById('modifierWattBtn3');
 
+const overlay = document.getElementById('overlay');
+const popup = document.getElementById('popup');
+const popupText = document.getElementById('popupText');
+const dismissBtn = document.getElementById('dismissBtn');
+
 let state = 0; // 0-heat, 1-defrost, 2-watt
 let colors = ["#FF7D05", "#05A5FF", "#DA05FD"]; // the colors of the buttons in the navbar in each state
 let action = ["REHEAT", "DEFROST", "PRESET"]
@@ -336,6 +341,8 @@ addMoreWattBtn.addEventListener('click', () => {
     if(wattage < wattageHIGH){
         wattage += wattageStep;
         lcdWattText.innerHTML = wattage;
+    } else {
+        showPopupDialog("You have reached the maximum wattage available.")
     }
 });
 
@@ -344,19 +351,28 @@ subMoreWattBtn.addEventListener('click', () => {
     if(wattage > wattageLOW){
         wattage -= wattageStep;
         lcdWattText.innerHTML = wattage;
+    } else {
+        showPopupDialog("You have reached the minimum wattage available.")
     }
 });
 
 modifierWattBtn1.addEventListener('click', () => {
+    wattage = wattageLOW;
     lcdWattText.innerHTML = wattageLOW;
 });
 
 modifierWattBtn2.addEventListener('click', () => {
+    wattage = wattageMEDIUM;
     lcdWattText.innerHTML = wattageMEDIUM;
 });
 
 modifierWattBtn3.addEventListener('click', () => {
+    wattage = wattageHIGH;
     lcdWattText.innerHTML = wattageHIGH;
+});
+
+dismissBtn.addEventListener('click', () => {
+    dismissPopupDialog();
 });
 
 function startCountdown(){
@@ -463,4 +479,16 @@ function enableNavigationBar(){
     wattbutton.style.display = "flex";
 
     navbar.removeChild(navbar.lastChild);
+}
+
+function showPopupDialog(message){
+    overlay.style.display = "block";
+    popup.style.display = "block";
+    popupText.innerHTML = message;
+}
+
+function dismissPopupDialog(){
+    overlay.style.display = "none";
+    popup.style.display = "none";
+    popupText.innerHTML = "";
 }
