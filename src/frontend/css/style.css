@@ -22,7 +22,7 @@
     border-bottom-right-radius: 20px;
 }
 
-#navbar div {
+#navbar > div {
     font-size: 6vw;
     color: #959494;
     background-color: #D9D9D9;
@@ -33,12 +33,12 @@
     width: 100%;
     /* center the text in the div */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
 }
 
-#navbar div:first-child {
+#navbar > div:first-child {
     background-color: #FF7D05;
     color: white;
     font-weight: bold;
@@ -48,7 +48,7 @@
     border-bottom: none;
 }
 
-#navbar div:last-child {
+#navbar > div:last-child {
     border-bottom-right-radius: 20px;
     border-right: 5px solid #B3B3B3;
 }
@@ -314,7 +314,7 @@
 }
 
 #modifierWattBtn2 {
-    background-color: #f8f52a;
+    background-color: #D9D9D9;
 }
 
 #modifierWattBtn3 {
