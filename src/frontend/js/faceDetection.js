@@ -1,8 +1,8 @@
 
 
+// 	redundant code
 
-
-async function loadModel(){
+/*async function loadModel(){
 	
 	console.log("Asking user for video permissions"); 	
 	//ask user for video permissions 
@@ -37,7 +37,7 @@ async function loadModel(){
 
 
 
-loadModel();
+loadModel();*/
 
 
 
