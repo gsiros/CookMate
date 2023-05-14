@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@tensorflow-models/blazeface": "^0.0.7",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "pem": "^1.14.7"
   }
 }

@@ -21,10 +21,13 @@ async function loadModel(){
 		const predictions = await model.estimateFaces(videoElement); 
 
 		if(predictions != 0){
+			//if face is detected exit the loop
 			console.log("Face detected"); 
+			alert("Face detected");
 		}else{
+			//if face not detected continue to ask for face
 			console.log("No face detected");	
-
+			alert("Face not detected");
 			requestAnimationFrame(detectFaces);
 		}
 	}
