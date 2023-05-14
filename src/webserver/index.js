@@ -6,6 +6,7 @@ const app = express();
 app.use(express.static('../frontend'));
 
 app.get('/', (req, res) => {
+    console.log("New connection received")
     res.sendFile('index.html');
 });
 
