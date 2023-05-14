@@ -15,7 +15,7 @@ while True:
 
 
     faces = detect_bounding_box(
-            video_frame
+            video_frame, face_classifier
     ) 
 
     cv2.imshow(
