@@ -3,7 +3,7 @@ const https = require('https');
 const express = require('express');
 const pem = require('pem'); 
 
-pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
+pem.createCertificate({ days: 365, selfSigned: true }, (err, keys) => {
 	  if (err) {
 	    throw err
 	  }
