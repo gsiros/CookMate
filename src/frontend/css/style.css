@@ -1,3 +1,384 @@
-h1 {
-    color: red;
+@font-face{
+    font-family:'digital-clock-font';
+    src: url('../fonts/digital-7.ttf');
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.shadow {
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+#navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 10vh;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+#navbar > div {
+    font-size: 6vw;
+    color: #959494;
+    background-color: #D9D9D9;
+    height: 100%;
+    border-left: 2.5px solid #B3B3B3;
+    border-right: 2.5px solid #B3B3B3;
+    border-bottom: 5px solid #B3B3B3;
+    width: 100%;
+    /* center the text in the div */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar > div:first-child {
+    background-color: #FF7D05;
+    color: white;
+    font-weight: bold;
+    border-bottom-left-radius: 20px;
+    /*border-left: 5px solid #B3B3B3;*/
+    border-left: none;
+    border-bottom: none;
+}
+
+#navbar > div:last-child {
+    border-bottom-right-radius: 20px;
+    border-right: 5px solid #B3B3B3;
+}
+
+#interfacecontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+#heatinterface {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.5vh;
+}
+
+#heatinterfacebody {
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+}
+
+#heatTimer {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 3fr 1fr;
+    background-color: #D9D9D9;
+    width: 59vw;
+    height: 24vh;
+    border-radius: 20px;
+}
+
+.timerBtnContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 70pt;
+    height: 100%;
+}
+
+.timerBtn {
+    background-color: #D9D9D9;
+    color: #959494;
+    border: 5px solid #B3B3B3;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#addMoreTimeBtnLeft {
+    border-top-left-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+#addMoreTimeBtnRight {
+    border-top-Right-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+#subMoreTimeBtnLeft {
+    border-bottom-left-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+#subMoreTimeBtnRight {
+    border-bottom-Right-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+.lcdDisplay {
+    
+    border: 5px solid black;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#lcdText {
+    font-size: 180pt;
+    font-family: 'digital-clock-font';
+    text-align: center;
+        display: flex;
+    align-self: center;
+}
+
+.modifierBtn {
+    font-size: 60pt;
+    width: 59vw;
+    height: 9vh;
+    color: black;
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+#modifierBtn2 {
+    background-color: #B3B3B3;
+}
+
+#stopgocontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10vw;
+}
+
+.actionBtn {
+    color: white;
+    font-weight: bold;
+    font-size: 60pt;
+    width: 33.8vw;
+    height: 9.3vh;
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+#startBtn {
+    background-color: #6FCC79;
+}
+
+#clearBtn {
+    background-color: #E32424;
+}
+
+
+
+#wattinterface {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.5vh;
+}
+
+.presetcontainer {
+    display: flex;
+    flex-direction: column;
+    width: 59vw;
+    height: 26.2vh;
+    border-radius: 20px;
+}
+
+.presetgraphic {
+    width: 100%;
+    height: 75%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    object-fit: cover;
+}
+
+.presettext {
+    font-size: 60pt;
+    height: 25%;
+    margin-top: auto;
+    padding: 10px;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 100;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+#wattinterfacebody {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5vh;
+}
+
+#helperContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wattCounter {
+    border: 5px solid black;
+    width: 100%;
+    height: 14vh;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    box-sizing: border-box;
+}
+
+.wattCounter * {
+    font-family: 'digital-clock-font';
+}
+
+#lcdWattText {
+    font-size: 180pt;
+    text-align: center;
+    margin-left: auto;
+    display: flex;
+    align-self: center;
+}
+
+#lcdWatt {
+    font-size: 50pt;
+    display: flex;
+    align-self: flex-end;
+}
+
+#wattCount {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #D9D9D9;
+    width: 59vw;
+    height: auto;
+    border-radius: 20px;
+}
+
+
+#addMoreWattBtn {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+#subMoreWattBtn {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    align-self: center;
+    justify-self: center;
+}
+
+#confirmBtn {
+    background-color: #6FCC79;
+}
+
+#modifierWattBtn1 {
+    color: white;
+    background-color: #6FCC79;
+}
+
+#modifierWattBtn2 {
+    background-color: #D9D9D9;
+}
+
+#modifierWattBtn3 {
+    background-color: #f97b32; 
+    color: white;   
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    backdrop-filter: blur(8px); /* Apply backdrop blur effect */
+}
+  
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 70vw;
+    height: 40vh;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    z-index: 10000;
+}
+
+.popup-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.circular-graphic {
+    background-color: #0099ff;
+    border-radius: 100%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circular-graphic p {
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 120pt;
+}
+
+#popupText {
+    color: #959494;
+    font-size: 40pt;
+    text-align: center;
+    margin: 10px;
+}
+
+#dismissBtn {
+    background-color: #D9D9D9;
+    color: black;
 }

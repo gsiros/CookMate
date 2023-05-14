@@ -4,10 +4,86 @@
         <meta charset="UTF-8">
         <title>CookMate</title>
         <link rel="stylesheet" href="css/style.css">
-        <script src="js/index.js"></script>
+        <script defer src="js/index.js"></script>
+        <script src="https://kit.fontawesome.com/c82bcd8173.js" crossorigin="anonymous"></script>
     </head>
 
     <body>
-        <h1 onclick="helloWorld()">Test</h1>
+        <div id="navbar" class="shadow">
+            <div id="heatbutton">
+                <div class="navbar-icon-container"><i class="fa fa-fire-flame-curved"></i></div>
+                <div class="navbar-text-container">REHEAT</div>
+            </div>
+            <div id="defrostbutton">
+                <div class="navbar-icon-container"><i class="fa fa-snowflake"></i></div>
+                <div class="navbar-text-container">DEFROST</div>
+            </div>
+            <div id="wattbutton">
+                <div class="navbar-icon-container"><i class="fa fa-bolt-lightning"></i></div>
+                <div class="navbar-text-container">WATT</div>
+            </div>
+        </div>
+
+        <div id="interfacecontainer">
+
+            <div id="heatinterface">
+                <div id="heatinterfacebody">
+                    <div id="heatTimer" class="shadow">
+                        <div class="timerBtnContainer">
+                            <div id="addMoreTimeBtnLeft" class="timerBtn clickable">+</div>
+                            <div id="addMoreTimeBtnRight" class="timerBtn clickable">+</div>
+                        </div>
+                        <div class="lcdDisplay">
+                            <div id="lcdText">00:00</div>
+                        </div>
+                        <div class="timerBtnContainer">
+                            <div id="subMoreTimeBtnLeft" class="timerBtn clickable">-</div>
+                            <div id="subMoreTimeBtnRight" class="timerBtn clickable">-</div>
+                        </div>
+                    </div>
+                    <div id="modifierBtn1" class="modifierBtn shadow clickable"><p>+30 sec</p></div>
+                    <div id="modifierBtn2" class="modifierBtn shadow clickable"><p>+1 min</p></div>
+                </div>
+                
+                <div id="stopgocontainer">
+                    <div id="startBtn" class="actionBtn shadow clickable"><p>START</p></div>
+                    <div id="clearBtn" class="actionBtn shadow clickable"><p>CLEAR</p></div>
+                </div>
+            </div>     
+    
+            <div id="wattinterface" style="display: none;">
+                <div id="wattinterfacebody">
+                    <div id="wattCount" class="shadow">
+                        <div class="timerBtnContainer">
+                            <div id="addMoreWattBtn" class="timerBtn clickable">+</div>
+                        </div>
+                        
+                        <div class="wattCounter">
+                            <div id="lcdWattText">600</div>
+                            <div id="lcdWatt">WATT</div>
+                        </div>
+                        
+                        <div class="timerBtnContainer">
+                            <div id="subMoreWattBtn" class="timerBtn clickable">-</div>
+                        </div>
+                    </div>
+                    <div id="modifierWattBtn1" class="modifierBtn shadow clickable"><p>LOW</p></div>
+                    <div id="modifierWattBtn2" class="modifierBtn shadow clickable"><p>MEDIUM</p></div>
+                    <div id="modifierWattBtn3" class="modifierBtn shadow clickable"><p>HIGH</p></div>
+                </div>
+                
+            </div>
+
+        
+        </div>
+
+        <div id="overlay" style="display: none;"></div>
+        <div id="popup" style="display: none;">
+            <div class="popup-content">
+                <div class="circular-graphic shadow"><p>i</p></div>
+                <div id="popupText">You have reached the minumum wattage available.</div>
+                <div id="dismissBtn" class="modifierBtn clickable">OK</div>
+            </div>
+        </div>
     </body>
 </html>
