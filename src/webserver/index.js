@@ -1,5 +1,6 @@
 // Create simple webserver with express and serve index.html which is located one level up in the frontend folder:
 const express = require('express');
+require('./faceDetection.js');
 
 const app = express();
 
