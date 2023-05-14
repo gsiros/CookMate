@@ -16,7 +16,7 @@ async function loadModel(){
 	console.log("Loading model into the code");
 	const model = await blazeface.load(); 
 
-	await detectFaces(model, videoElement); 
+	detectFaces(model, videoElement); 
 } 
 
 
@@ -28,7 +28,10 @@ async function detectFaces(model, videoElement){
 		console.log("Face detected"); 
 	}else{
 		console.log("No face detected");	
+		requestAnimationFrame(detectFaces);
 	}
 }
 
-loadModel(); 
+
+
+
