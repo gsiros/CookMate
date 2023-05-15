@@ -40,10 +40,16 @@ const loadModel = async () => {
 }
 
 loadModel().then(() => {
+	console.log("Loaded model successfully");
 	closeSplashScreen();
 	loadUI();
 	turnOnAlwaysOnDisplay();
 	detectFaces();
+}).catch(err => {
+	console.log("Error: " + err + " while loading model");
+	closeSplashScreen();
+	loadUI(); 
+	turnOffAlwaysOnDisplay(); 
 });
 
 
