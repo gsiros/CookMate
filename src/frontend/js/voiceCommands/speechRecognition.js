@@ -1,4 +1,4 @@
-import { voiceCommandFunctions } from "./handleVoiceCommands";
+import { voiceCommandFunctions } from "./handleVoiceCommands.js";
 
 
 
@@ -26,8 +26,13 @@ recognition.onresult = (event) => {
       speak("Ενεργοποιήθηκαν οι φωνητικές εντολές. Για να τις απενεργοποιήσετε πείτε: εντάξει φουρνάκι.");
     }
   } else {
+    
+    if(transcript.includes(sequence1) || transcript.includes(sequence2)){
+      speak("Οι φωνητικές εντολές είναι ήδη ενεργοποιημένες.");
+      return; 
+    }
     // Handle voice commands here
-
+    voiceCommandFunctions.handleVoiceCommand(transcript);
 
     // Check if the user said the phrase to end voice commands
     const endPhrase1 = "Εντάξει φουρνάκι";
