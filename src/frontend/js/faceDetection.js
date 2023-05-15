@@ -15,8 +15,8 @@ const scanForFaceInterval = 1000; // 1 second
 let videoElement = null; 
 let model = null; 
 
-//ask user for video permissions 
 const loadModel = async () => {
+	//ask user for video permissions 
 	console.log("Getting user media");
 	const stream = await navigator.mediaDevices.getUserMedia({video: true});
 
