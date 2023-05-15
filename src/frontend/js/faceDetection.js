@@ -40,6 +40,7 @@ const loadModel = async () => {
 }
 
 loadModel().then(() => {
+	console.log("Loaded model successfully");
 	closeSplashScreen();
 	loadUI();
 	turnOnAlwaysOnDisplay();
