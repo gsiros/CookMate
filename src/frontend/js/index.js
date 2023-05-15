@@ -154,6 +154,10 @@ clickables.forEach((clickable) => {
 // Navigation bar mechancis:
 
 heatbutton.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Make bg color orange:
     heatbutton.style.backgroundColor = "#FF7D05";
     defrostbutton.style.backgroundColor = "#D9D9D9";
@@ -181,6 +185,10 @@ heatbutton.addEventListener('click', () => {
 });
 
 defrostbutton.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Make bg color blue:
     heatbutton.style.backgroundColor = "#D9D9D9";
     defrostbutton.style.backgroundColor = "#05A5FF";
@@ -207,6 +215,10 @@ defrostbutton.addEventListener('click', () => {
 });
 
 wattbutton.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Make bg color orange:
     heatbutton.style.backgroundColor = "#D9D9D9";
     defrostbutton.style.backgroundColor = "#D9D9D9";
@@ -237,12 +249,20 @@ wattbutton.addEventListener('click', () => {
 // Timer UI backend:
 
 addMoreTimeBtnLeft.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Increase the time by 1 minute:
     minutesLeft += 1;
     lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);
 });
 
 addMoreTimeBtnRight.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Increase the time by 1 second:
     secondsLeft += 1;
     // If secondsLeft is 60, reset it to 0 and increase minutesLeft by 1:
@@ -254,6 +274,10 @@ addMoreTimeBtnRight.addEventListener('click', () => {
 });
 
 subMoreTimeBtnLeft.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Decrease the time by 1 minute:
     if(minutesLeft != 0){
         minutesLeft -= 1;
@@ -264,6 +288,10 @@ subMoreTimeBtnLeft.addEventListener('click', () => {
 });
 
 subMoreTimeBtnRight.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Decrease the time by 1 second:
     if(minutesLeft > 0 || secondsLeft > 0){
         // If secondsLeft is 0, reset it to 59 and decrease minutesLeft by 1:
@@ -282,6 +310,10 @@ subMoreTimeBtnRight.addEventListener('click', () => {
 });
 
 modifierBtn1.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Increase secondsLeft by 30:
     secondsLeft += 30;
     if(secondsLeft >= 60){
@@ -292,12 +324,20 @@ modifierBtn1.addEventListener('click', () => {
 });
 
 modifierBtn2.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Increase minutesLeft by 1:
     minutesLeft += 1;
     lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
 });
 
 clearBtn.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     if(inProgress){
         // Reset the timer:
         if(timeout != null){
@@ -314,6 +354,10 @@ clearBtn.addEventListener('click', () => {
 });
 
 startBtn.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Start the timer:
     if(actsLikeStart){
         if(minutesLeft !=0 || secondsLeft != 0){
@@ -342,6 +386,10 @@ startBtn.addEventListener('click', () => {
 });
 
 addMoreWattBtn.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Increase the wattage by step:
     if(wattage < wattageHIGH){
         wattage += wattageStep;
@@ -352,6 +400,10 @@ addMoreWattBtn.addEventListener('click', () => {
 });
 
 subMoreWattBtn.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     // Decrease the wattage by step:
     if(wattage > wattageLOW){
         wattage -= wattageStep;
@@ -362,21 +414,37 @@ subMoreWattBtn.addEventListener('click', () => {
 });
 
 modifierWattBtn1.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     wattage = wattageLOW;
     lcdWattText.innerHTML = wattageLOW;
 });
 
 modifierWattBtn2.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     wattage = wattageMEDIUM;
     lcdWattText.innerHTML = wattageMEDIUM;
 });
 
 modifierWattBtn3.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     wattage = wattageHIGH;
     lcdWattText.innerHTML = wattageHIGH;
 });
 
 dismissBtn.addEventListener('click', () => {
+    // User has given feedback, 
+    // they are still using the microwave, 
+    // reload sleep timer:
+    reloadSleepTimer();
     dismissPopupDialog();
 });
 
@@ -393,6 +461,9 @@ function startCountdown(){
             revertToNormalUI();
             inProgress = false;
             actsLikeStart = true;
+            timeout = null;
+            // Restart sleep timer:
+            reloadSleepTimer();
         }
     }, 1000);
 }
@@ -499,3 +570,4 @@ function dismissPopupDialog(){
     popup.style.display = "none";
     popupText.innerHTML = "";
 }
+

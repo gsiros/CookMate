@@ -9,6 +9,8 @@
   "author": "George Syros, Fotis Bistas, Tasos Toumazatos",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "@tensorflow-models/blazeface": "^0.0.7",
+    "express": "^4.18.2",
+    "pem": "^1.14.7"
   }
 }

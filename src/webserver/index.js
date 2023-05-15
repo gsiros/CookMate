@@ -1,15 +1,25 @@
 // Create simple webserver with express and serve index.html which is located one level up in the frontend folder:
+const https = require('https'); 
 const express = require('express');
+const pem = require('pem');
 
-const port = 80;
-const app = express();
+const port = 443;
 
-app.use(express.static('../frontend'));
+pem.createCertificate({ days: 365, selfSigned: true }, (err, keys) => {
+	  if (err) {
+	    throw err
+	  }
 
-app.get('/', (req, res) => {
-    res.sendFile('index.html');
-});
+	  const app = express();
 
-app.listen(port, () => {
-    console.log('Server is listening on port '+port);
-});
+	app.use(express.static('../frontend'));
+
+	  app.get('/', (req, res) => {
+	    res.sendFile('index.html');
+	  })
+
+  https.createServer({ key: keys.clientKey, cert: keys.certificate }, app).listen(port, () => {
+	console.log(`Listening on port ${port}`);
+  })
+})
+
