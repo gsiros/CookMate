@@ -1,43 +1,106 @@
 
+// Facial Recognition
 
-// 	redundant code
+const overlayAlwaysOnDisplay = document.getElementById('overlayAlwaysOnDisplay');
+const alwaysOnDisplay = document.getElementById('alwaysOnDisplay');
+const alwaysonTime = document.getElementById('alwaysonTime');
+const unlockBtn = document.getElementById('unlockBtn');
 
-/*async function loadModel(){
-	
-	console.log("Asking user for video permissions"); 	
-	//ask user for video permissions 
-	const videoElement = document.createElement('video'); 
+
+let sleepTimer = null; 
+let unlocked = false;
+const sleepInterval = 30000; // 30 seconds
+
+let videoElement = null; 
+let model = null; 
+
+//ask user for video permissions 
+const loadModel = async () => {
+	console.log("Getting user media");
 	const stream = await navigator.mediaDevices.getUserMedia({video: true});
-	videoElement.srcObject = stream; 
-	await videoElement.play(); 
 
+	if(!videoElement){
+		videoElement = document.createElement('video'); 
+		videoElement.srcObject = stream;
+		await videoElement.play(); 
+	}	 
 
 	//load the model 
-	console.log("Loading model into the code");
-	const model = await blazeface.load(); 
-
-	async function detectFaces(){
-
-		const predictions = await model.estimateFaces(videoElement); 
-
-		if(predictions != 0){
-			//if face is detected exit the loop
-			console.log("Face detected"); 
-			alert("Face detected");
-		}else{
-			//if face not detected continue to ask for face
-			console.log("No face detected");	
-			alert("Face not detected");
-			requestAnimationFrame(detectFaces);
-		}
+	if(!model){
+		console.log("Loading model");
+		model = await blazeface.load(); 
 	}
 
+	unlocked = false;
+}
+
+loadModel().then(() => {
 	detectFaces();
-} 
+});
+
+
+async function detectFaces(){
+	console.log("Looking for predictions");
+	const predictions = await model.estimateFaces(videoElement);
+
+	if(predictions != 0){
+		//if face is detected exit the loop
+		// unlock the interface
+		unlocked = true;
+		console.log("Detected face exiting loop");
+		turnOffAlwaysOnDisplay();
+		reloadSleepTimer();
+	}else{
+		//if face not detected continue to ask for face
+		if(!unlocked){
+			requestAnimationFrame(detectFaces);
+		}	
+	}
+}
 
 
 
-loadModel();*/
+function turnOffAlwaysOnDisplay(){
+	overlayAlwaysOnDisplay.style.display = "none";
+	alwaysOnDisplay.style.display = "none";
+}
 
+function turnOnAlwaysOnDisplay(){
+	overlayAlwaysOnDisplay.style.display = "block";
+	alwaysOnDisplay.style.display = "block";
+}
+
+function updateTime() {
+	function padZero(value) {
+		return value.toString().padStart(2, '0');
+	}
+	const currentTime = new Date();
+	const hours = currentTime.getHours();
+	const minutes = currentTime.getMinutes();
+	const formattedTime = `${hours}:${padZero(minutes)}`;
+	alwaysonTime.innerHTML = formattedTime;
+}
+
+unlockBtn.addEventListener('click', () => {
+	unlocked = true;
+	turnOffAlwaysOnDisplay();
+	reloadSleepTimer();
+});
+
+function reloadSleepTimer(){
+	// Reset the timer:
+	clearTimeout(sleepTimer);
+	sleepTimer = setTimeout(() => {
+		if(timeout == null){
+			unlocked = false;
+			detectFaces();
+			turnOnAlwaysOnDisplay();
+		}
+	}, sleepInterval);  
+}
+
+// Update time every second
+updateTime();
+setInterval(updateTime, 1000);
 
 

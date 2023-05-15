@@ -43,14 +43,11 @@ let inProgress = false;
 let minutesLeft = 0;
 let secondsLeft = 0;
 let timeout = null;
-let sleepTimer = null;
 let wattage = 600; // default wattage is 600W and maximum is 1200W
 const wattageStep = 50;
 const wattageLOW = 600;
 const wattageMEDIUM = 850;
 const wattageHIGH = 1200;
-const sleepInterval = 30000; // 30 seconds
-let unlocked = false;
 
 const amount = 20; // amount to darken the background color of the element 
 
@@ -574,88 +571,3 @@ function dismissPopupDialog(){
     popupText.innerHTML = "";
 }
 
-// Facial Recognition
-
-const overlayAlwaysOnDisplay = document.getElementById('overlayAlwaysOnDisplay');
-const alwaysOnDisplay = document.getElementById('alwaysOnDisplay');
-const alwaysonTime = document.getElementById('alwaysonTime');
-const unlockBtn = document.getElementById('unlockBtn');
-
-async function loadModel(){
-	unlocked = false;
-	//ask user for video permissions 
-	const stream = await navigator.mediaDevices.getUserMedia({video: true});
-    const videoElement = document.createElement('video'); 
-	videoElement.srcObject = stream; 
-	await videoElement.play(); 
-
-
-	//load the model 
-	const model = await blazeface.load(); 
-
-	async function detectFaces(){
-
-		const predictions = await model.estimateFaces(videoElement); 
-
-		if(predictions != 0){
-			//if face is detected exit the loop
-            // unlock the interface
-            unlocked = true;
-            turnOffAlwaysOnDisplay();
-            reloadSleepTimer();
-		}else{
-			//if face not detected continue to ask for face
-            if(!unlocked){
-                requestAnimationFrame(detectFaces);
-            }	
-		}
-	}
-
-	detectFaces();
-}
-
-function turnOffAlwaysOnDisplay(){
-    overlayAlwaysOnDisplay.style.display = "none";
-    alwaysOnDisplay.style.display = "none";
-}
-
-function turnOnAlwaysOnDisplay(){
-    overlayAlwaysOnDisplay.style.display = "block";
-    alwaysOnDisplay.style.display = "block";
-}
-
-function updateTime() {
-    function padZero(value) {
-        return value.toString().padStart(2, '0');
-    }
-    const currentTime = new Date();
-    const hours = currentTime.getHours();
-    const minutes = currentTime.getMinutes();
-    const formattedTime = `${hours}:${padZero(minutes)}`;
-    alwaysonTime.innerHTML = formattedTime;
-}
-
-unlockBtn.addEventListener('click', () => {
-    unlocked = true;
-    turnOffAlwaysOnDisplay();
-    reloadSleepTimer();
-});
-
-function reloadSleepTimer(){
-    // Reset the timer:
-    clearTimeout(sleepTimer);
-    sleepTimer = setTimeout(() => {
-        if(timeout == null){
-            unlocked = false;
-            loadModel();
-            turnOnAlwaysOnDisplay();
-        }
-    }, sleepInterval);  
-}
-
-// Update time every second
-updateTime();
-setInterval(updateTime, 1000);
-
-// Start facial recognition:
-loadModel();
