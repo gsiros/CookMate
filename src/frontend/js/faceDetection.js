@@ -44,6 +44,11 @@ loadModel().then(() => {
 	loadUI();
 	turnOnAlwaysOnDisplay();
 	detectFaces();
+}).catch(err => {
+	console.log("Error: " + err + " while loading model");
+	closeSplashScreen();
+	loadUI(); 
+	turnOffAlwaysOnDisplay(); 
 });
 
 
