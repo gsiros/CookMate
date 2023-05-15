@@ -10,7 +10,7 @@ const unlockBtn = document.getElementById('unlockBtn');
 let sleepTimer = null; 
 let unlocked = false;
 const sleepInterval = 30000; // 30 seconds
-const scanForFaceInterval = 1000; // 1 second
+const scanForFaceInterval = 500; // 1 second
 
 let videoElement = null; 
 let model = null; 
@@ -40,6 +40,9 @@ const loadModel = async () => {
 }
 
 loadModel().then(() => {
+	closeSplashScreen();
+	loadUI();
+	turnOnAlwaysOnDisplay();
 	detectFaces();
 });
 

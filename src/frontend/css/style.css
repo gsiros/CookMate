@@ -431,3 +431,51 @@
     align-self: center;
     font-size: 100pt;
 }
+
+#loadingScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
+    width: 100vw;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#loadingTitle {
+    font-size: 95pt;
+    color: #717171;
+}
+
+#loadingDesc {
+    font-size: 35pt;
+    font-style: italic;
+    color: #BDBDBD;
+    margin-top: 15px;
+}
+
+#loadingText {
+    font-size: 30pt;
+    color: #717171;
+    margin-top: 55px;
+}
+
+.loader {
+    margin-top: 100px;
+    background: rgb(255, 255, 255, 0.6);
+}
+
+.circloader {
+    border: 25px solid #BDBDBD; 
+    border-top: 25px solid #448AFF; 
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    animation: spin 2s linear infinite;
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
