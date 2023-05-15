@@ -1,3 +1,7 @@
+import { voiceCommandFunctions } from "./handleVoiceCommands";
+
+
+
 // Create speech recognition object
 const recognition = new webkitSpeechRecognition();
 
@@ -23,7 +27,7 @@ recognition.onresult = (event) => {
     }
   } else {
     // Handle voice commands here
-    // ...
+
 
     // Check if the user said the phrase to end voice commands
     const endPhrase1 = "Εντάξει φουρνάκι";
