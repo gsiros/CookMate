@@ -1,6 +1,8 @@
 // JS file for the frontend
 
 const navbar = document.getElementById('navbar');
+const interfacecontainer = document.getElementById('interfacecontainer');
+const loadingScreen = document.getElementById('loadingScreen');
 const heatbutton = document.getElementById('heatbutton');
 const defrostbutton = document.getElementById('defrostbutton');
 const wattbutton = document.getElementById('wattbutton');
@@ -571,3 +573,12 @@ function dismissPopupDialog(){
     popupText.innerHTML = "";
 }
 
+function loadUI(){
+    navbar.style.display = "flex";
+    interfacecontainer.style.display = "flex";
+
+}
+
+function closeSplashScreen(){
+    loadingScreen.style.display = "none";
+}

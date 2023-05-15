@@ -10,18 +10,23 @@ const unlockBtn = document.getElementById('unlockBtn');
 let sleepTimer = null; 
 let unlocked = false;
 const sleepInterval = 30000; // 30 seconds
+const scanForFaceInterval = 500; // 1 second
 
 let videoElement = null; 
 let model = null; 
 
-//ask user for video permissions 
 const loadModel = async () => {
+	//ask user for video permissions 
 	console.log("Getting user media");
 	const stream = await navigator.mediaDevices.getUserMedia({video: true});
 
 	if(!videoElement){
 		videoElement = document.createElement('video'); 
 		videoElement.srcObject = stream;
+		// Safari configuration (Safari on iOS needs autoplay, playsInline and muted to work)
+		videoElement.setAttribute('autoplay', '');
+    	videoElement.setAttribute('muted', '');
+    	videoElement.setAttribute('playsinline', '');
 		await videoElement.play(); 
 	}	 
 
@@ -35,6 +40,9 @@ const loadModel = async () => {
 }
 
 loadModel().then(() => {
+	closeSplashScreen();
+	loadUI();
+	turnOnAlwaysOnDisplay();
 	detectFaces();
 });
 
@@ -53,7 +61,11 @@ async function detectFaces(){
 	}else{
 		//if face not detected continue to ask for face
 		if(!unlocked){
-			requestAnimationFrame(detectFaces);
+			// Timeout in order to not drain the computational resources of the device.
+			setTimeout(() => {
+				console.log("No face detected, trying again.");
+				requestAnimationFrame(detectFaces)
+			}, scanForFaceInterval);
 		}	
 	}
 }

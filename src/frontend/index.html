@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <div id="navbar" class="shadow">
+        <div id="navbar" class="shadow" style="display: none;">
             <div id="heatbutton">
                 <div class="navbar-icon-container"><i class="fa fa-fire-flame-curved"></i></div>
                 <div class="navbar-text-container">REHEAT</div>
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div id="interfacecontainer">
+        <div id="interfacecontainer" style="display: none;">
 
             <div id="heatinterface">
                 <div id="heatinterfacebody">
@@ -85,12 +85,21 @@
             </div>
         </div>
 
-        <div id="overlayAlwaysOnDisplay"></div>
-        <div id="alwaysOnDisplay">
+        <div id="overlayAlwaysOnDisplay" style="display: none;" class="slide-animation"></div>
+        <div id="alwaysOnDisplay" style="display: none;" class="slide-animation">
             <div class="alwayson-content">
                 <div id="alwaysonTime">14:40</div>
                 <div id="unlockBtn" class="clickable"><i id="unlockIcon" class="fa fa-unlock"></i></div>
             </div>
+        </div>
+
+        <div id="loadingScreen">
+            <div id="loadingTitle">CookMate</div>
+            <div id="loadingDesc">Life made easier</div>
+            <div class="loader">
+                <div class="circloader"></div> 
+            </div>
+            <div id="loadingText">Loading interface...</div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
