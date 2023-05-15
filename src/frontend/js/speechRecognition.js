@@ -19,28 +19,33 @@ recognition.onresult = (event) => {
     if (transcript.includes(sequence1) || transcript.includes(sequence2)) {
       // Enable voice commands
       voiceCommandsEnabled = true;
-      speak("Ενεργοποιήθηκαν οι φωνητικές εντολές. Για να τις απενεργοποιήσετε πείτε: τέλος φωνητικών εντολών.");
-    } else {
-      // Continue listening for voice commands
-      recognition.start();
+      speak("Ενεργοποιήθηκαν οι φωνητικές εντολές. Για να τις απενεργοποιήσετε πείτε: εντάξει φουρνάκι.");
     }
   } else {
     // Handle voice commands here
     // ...
 
     // Check if the user said the phrase to end voice commands
-    const endPhrase1 = "Τέλος φωνητικών εντολών";
-    const endPhrase2 = "τέλος φωνητικών εντολών";
+    const endPhrase1 = "Εντάξει φουρνάκι";
+    const endPhrase2 = "εντάξει φουρνάκι";
     if (transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
       // Disable voice commands
       voiceCommandsEnabled = false;
-      speak("Οι φωνητικές εντολές έχουν απενεργοποιηθεί");
+      speak("Οι φωνητικές εντολές έχουν απενεργοποιηθεί. Για να τις ενεργοποιήσετε πάλι πείτε: γεια σου φουρνάκι.");
     }
 
-    // Continue listening for voice commands
-    recognition.start();
   }
 };
+
+// Event handler for error event
+recognition.onerror = (event) => {
+  console.error('Speech recognition error:', event.error);
+};
+
+recognition.onend = () => {
+  console.log("Speech ended detecting again");
+  recognition.start();
+}
 
 // Request microphone permission
 navigator.mediaDevices.getUserMedia({ audio: true })
