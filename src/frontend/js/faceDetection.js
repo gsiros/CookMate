@@ -14,11 +14,12 @@ const scanForFaceInterval = 500; // 1 second
 
 let videoElement = null; 
 let model = null; 
+let stream = null;
 
 const loadModel = async () => {
 	//ask user for video permissions 
 	console.log("Getting user media");
-	const stream = await navigator.mediaDevices.getUserMedia({video: true});
+	stream = await navigator.mediaDevices.getUserMedia({video: true});
 
 	if(!videoElement){
 		videoElement = document.createElement('video'); 
@@ -40,10 +41,18 @@ const loadModel = async () => {
 }
 
 loadModel().then(() => {
+	console.log("Loaded model successfully");
 	closeSplashScreen();
 	loadUI();
 	turnOnAlwaysOnDisplay();
 	detectFaces();
+}).catch(err => {
+	console.log("Error: " + err + " while loading model");
+	closeSplashScreen();
+	loadUI(); 
+	turnOffAlwaysOnDisplay(); 
+	// Fire-up the always on display timer:
+	reloadSleepTimer();
 });
 
 
@@ -105,7 +114,9 @@ function reloadSleepTimer(){
 	sleepTimer = setTimeout(() => {
 		if(timeout == null){
 			unlocked = false;
-			detectFaces();
+			if (stream) {
+				detectFaces();
+			}
 			turnOnAlwaysOnDisplay();
 		}
 	}, sleepInterval);  
