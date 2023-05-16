@@ -16,14 +16,14 @@ recognition.onresult = async (event) => {
   const transcript = event.results[0][0].transcript;
   console.log('Recognized english words:', transcript);
 
-  const sequence1 = "Hey cookmate";
-  const sequence2 = "hey cookmate";
+  const sequence1 = "Hello microwave";
+  const sequence2 = "hello microwave";
   
   if (!voiceCommandsEnabled) {
     if (transcript.includes(sequence1) || transcript.includes(sequence2)) {
       // Enable voice commands
       voiceCommandsEnabled = true;
-      speak("Voice commands are activated. To deactivate say okay cook mate.");
+      speak("Voice commands are activated. To deactivate say okay microwave.");
     }
   } else {
     
@@ -35,12 +35,14 @@ recognition.onresult = async (event) => {
     await voiceCommandFunctions.handleVoiceCommand(transcript);
 
     // Check if the user said the phrase to end voice commands
-    const endPhrase1 = "OK cookmate";
-    const endPhrase2 = "ok cookmate";
-    if (transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
+    const endPhrase1 = "OK microwave";
+    const endPhrase2 = "ok microwave";
+    const endPhrase3 = "Okay microwave";
+    const endPhrase4 = "okay microwave";
+    if (transcript.includes(endPhrase4) || transcript.includes(endPhrase3)|| transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
       // Disable voice commands
       voiceCommandsEnabled = false;
-      speak("Voice commands are deactivated. To activate them say hey cook mate.");
+      speak("Voice commands are deactivated. To activate them say hello microwave.");
     }
 
   }
