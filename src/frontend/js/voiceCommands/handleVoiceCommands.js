@@ -13,16 +13,27 @@ use.loadQnA()
 
 // Map your commands to intent labels
 const intents = [
-    'defrost.',
-    'reheat.',
+    'defrost',
+    'reheat',
     'watt',
     'cancel',
 ]; 
 
+const numberRegex = /\b(\d+)\b/g; // Matches any number
 
 export let voiceCommandFunctions = {
-    
-    async handleVoiceCommand(command){
+   /**
+    * Extracts the intent of the user command using 
+    * word embeddings. E.g. 
+    * ``Please defrost my food`` will produce: 
+    * ```javascript 
+    *   scores = [8,3,1,0] 
+    * ```
+    * Since index 0 has the biggest score intent ``defrost`` is chosen. 
+    * @param {*} command voice command spoken by user 
+    * @return {*} returns the correct intent 
+    */ 
+    async extractIntent(command){
 
         try{
             const commands = Array(1).fill(command);
@@ -40,14 +51,33 @@ export let voiceCommandFunctions = {
                 scores.push(dotProduct(embed_query[i], embed_responses[j]));
                 }
             }
-            //let index = scores.findIndex(scores.max); 
-            //console.log(intents[index]);
-            //return index;
+            let index = scores.indexOf(Math.max(...scores)); 
+            return intents[index];
         }catch(err){
-            console.log("Error: " + err + " while creating embeddings");
+            console.log("Error: " + err + " while extracting intent");
         }
-        //create commands from words here
     },
+
+    figureMetric(intent, command){
+        switch (intent){
+            case 'defrost':
+            case 'reheat':
+                let time_value = command.match(numberRegex);
+                time_value = time_value.push(0);
+                let minutes = command.includes('minutes') || command.includes('minute');
+                let seconds = command.includes('seconds') || command.includes('second');
+                return {time: time_value, watts: -1,metric:[minutes, seconds]};
+            case 'watt':
+                let watt_value = command.match(numberRegex);
+                return {watts: watt_value, time: -1};
+            case 'cancel':
+                console.log("Canceling operation");
+                break;
+            default: 
+                console.log("Unknown intent");
+        }
+
+    }
 } 
 
 

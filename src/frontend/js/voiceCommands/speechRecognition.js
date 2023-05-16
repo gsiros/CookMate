@@ -1,6 +1,13 @@
 import { voiceCommandFunctions } from "./handleVoiceCommands.js";
 
-
+//enable voice commands 
+const sequence1 = "Hello microwave";
+const sequence2 = "hello microwave";
+//end voice commands 
+const endPhrase1 = "OK microwave";
+const endPhrase2 = "ok microwave";
+const endPhrase3 = "Okay microwave";
+const endPhrase4 = "okay microwave";
 
 // Create speech recognition object
 const recognition = new webkitSpeechRecognition();
@@ -16,8 +23,6 @@ recognition.onresult = async (event) => {
   const transcript = event.results[0][0].transcript;
   console.log('Recognized english words:', transcript);
 
-  const sequence1 = "Hello microwave";
-  const sequence2 = "hello microwave";
   
   if (!voiceCommandsEnabled) {
     if (transcript.includes(sequence1) || transcript.includes(sequence2)) {
@@ -26,24 +31,31 @@ recognition.onresult = async (event) => {
       speak("Voice commands are activated. To deactivate say okay microwave.");
     }
   } else {
-    
+    //check if user retries to activate voice commands 
     if(transcript.includes(sequence1) || transcript.includes(sequence2)){
       speak("Voice commands are already activated.");
       return; 
     }
-    // Handle voice commands here
-    await voiceCommandFunctions.handleVoiceCommand(transcript);
 
     // Check if the user said the phrase to end voice commands
-    const endPhrase1 = "OK microwave";
-    const endPhrase2 = "ok microwave";
-    const endPhrase3 = "Okay microwave";
-    const endPhrase4 = "okay microwave";
     if (transcript.includes(endPhrase4) || transcript.includes(endPhrase3)|| transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
       // Disable voice commands
       voiceCommandsEnabled = false;
       speak("Voice commands are deactivated. To activate them say hello microwave.");
+      return; 
     }
+
+    // Handle voice commands here
+    const intent = await voiceCommandFunctions.extractIntent(transcript);
+    // handle intent screen and UI 
+    let metric_object = voiceCommandFunctions.figureMetric(intent, transcript);
+    
+    if((metric_object.time == null || metric_object.watts == null) && intent != 'cancel'){
+      speak("You need to provide appropriate metric for: " + intent + " operation");
+      return; 
+    }
+
+    speak("Setting: " + intent + " to ")
 
   }
 };
