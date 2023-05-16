@@ -12,7 +12,7 @@ recognition.lang = 'el-GR';
 let voiceCommandsEnabled = false;
 
 // Event handler for result event
-recognition.onresult = (event) => {
+recognition.onresult = async (event) => {
   const transcript = event.results[0][0].transcript;
   console.log('Recognized Greek words:', transcript);
 
@@ -32,7 +32,7 @@ recognition.onresult = (event) => {
       return; 
     }
     // Handle voice commands here
-    voiceCommandFunctions.handleVoiceCommand(transcript);
+    await voiceCommandFunctions.handleVoiceCommand(transcript);
 
     // Check if the user said the phrase to end voice commands
     const endPhrase1 = "Εντάξει φουρνάκι";
