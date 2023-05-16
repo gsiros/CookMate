@@ -13,10 +13,10 @@ use.loadQnA()
 
 // Map your commands to intent labels
 const intents = [
-    'DEFROST',
-    'REHEAT',
-    'WATT',
-    'CANCEL'
+    'defrost.',
+    'reheat.',
+    'watt',
+    'cancel',
 ]; 
 
 
@@ -26,11 +26,10 @@ export let voiceCommandFunctions = {
 
         try{
             const commands = Array(1).fill(command);
-            commands.push("Μπορείς να μου κάνεις reheat?");
             const input = {
-                queries: commands,
-                responses: intents           
-            };
+                queries: commands, 
+                responses: intents,
+            }
             var scores = [];
             const embeddings = model.embed(input);
             const embed_query = embeddings['queryEmbedding'].arraySync();
@@ -41,6 +40,9 @@ export let voiceCommandFunctions = {
                 scores.push(dotProduct(embed_query[i], embed_responses[j]));
                 }
             }
+            //let index = scores.findIndex(scores.max); 
+            //console.log(intents[index]);
+            //return index;
         }catch(err){
             console.log("Error: " + err + " while creating embeddings");
         }

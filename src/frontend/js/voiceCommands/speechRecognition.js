@@ -5,8 +5,8 @@ import { voiceCommandFunctions } from "./handleVoiceCommands.js";
 // Create speech recognition object
 const recognition = new webkitSpeechRecognition();
 
-// Set language to Greek
-recognition.lang = 'el-GR';
+// Set language to English
+recognition.lang = 'en-US';
 
 // Flag to track if voice commands are enabled
 let voiceCommandsEnabled = false;
@@ -14,33 +14,33 @@ let voiceCommandsEnabled = false;
 // Event handler for result event
 recognition.onresult = async (event) => {
   const transcript = event.results[0][0].transcript;
-  console.log('Recognized Greek words:', transcript);
+  console.log('Recognized english words:', transcript);
 
-  const sequence1 = "Γεια σου φουρνάκι";
-  const sequence2 = "γεια σου φουρνάκι";
+  const sequence1 = "Hey cookmate";
+  const sequence2 = "hey cookmate";
   
   if (!voiceCommandsEnabled) {
     if (transcript.includes(sequence1) || transcript.includes(sequence2)) {
       // Enable voice commands
       voiceCommandsEnabled = true;
-      speak("Ενεργοποιήθηκαν οι φωνητικές εντολές. Για να τις απενεργοποιήσετε πείτε: εντάξει φουρνάκι.");
+      speak("Voice commands are activated. To deactivate say okay cook mate.");
     }
   } else {
     
     if(transcript.includes(sequence1) || transcript.includes(sequence2)){
-      speak("Οι φωνητικές εντολές είναι ήδη ενεργοποιημένες.");
+      speak("Voice commands are already activated.");
       return; 
     }
     // Handle voice commands here
     await voiceCommandFunctions.handleVoiceCommand(transcript);
 
     // Check if the user said the phrase to end voice commands
-    const endPhrase1 = "Εντάξει φουρνάκι";
-    const endPhrase2 = "εντάξει φουρνάκι";
+    const endPhrase1 = "OK cookmate";
+    const endPhrase2 = "ok cookmate";
     if (transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
       // Disable voice commands
       voiceCommandsEnabled = false;
-      speak("Οι φωνητικές εντολές έχουν απενεργοποιηθεί. Για να τις ενεργοποιήσετε πάλι πείτε: γεια σου φουρνάκι.");
+      speak("Voice commands are deactivated. To activate them say hey cook mate.");
     }
 
   }
@@ -69,11 +69,11 @@ navigator.mediaDevices.getUserMedia({ audio: true })
 // Function to speak the response
 function speak(text) {
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'el-GR'; // Set the language to Greek
+  utterance.lang = 'en-US'; // Set the language to english
   const voices = window.speechSynthesis.getVoices();
-  const greekVoice = voices.find((voice) => voice.lang === 'el-GR');
-  if (greekVoice) {
-    utterance.voice = greekVoice; // Set the voice to a Greek voice if available
+  const englishVoice = voices.find((voice) => voice.lang === 'en-US');
+  if (englishVoice ) {
+    utterance.voice = englishVoice ; // Set the voice to a english voice if available
   }
   window.speechSynthesis.speak(utterance);
 }
