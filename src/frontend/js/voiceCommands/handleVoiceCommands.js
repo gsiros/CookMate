@@ -101,10 +101,10 @@ export let voiceCommandFunctions = {
                 }
                 
                 //there is only one metric present 
-                if(index_minutes == -1){
+                if(index_minutes != -1){
                    constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " minutes " + (0) + " seconds";
                    return constructed_command;
-                }else if(index_seconds == -1){
+                }else if(index_seconds != -1){
                    constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " seconds " + (0) + " minutes ";
                    return constructed_command;
                 }
@@ -126,7 +126,7 @@ export let voiceCommandFunctions = {
                 if(watt_value == null){
                     return null; 
                 }
-                constructed_command = "Setting watts to: " + watt_value[time_value.length - 1]; 
+                constructed_command = "Setting watts to: " + watt_value[watt_value.length - 1]; 
                 return constructed_command;
             case 'cancel':
                 console.log("Canceling operation");
