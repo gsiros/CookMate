@@ -100,10 +100,10 @@ export let voiceCommandFunctions = {
                 }
                 
                 //there is only one metric present 
-                if(index_minutes != -1){
+                if(index_minutes != -1 && index_seconds == -1){
                    constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " minutes " + (0) + " seconds";
                    return constructed_command;
-                }else if(index_seconds != -1){
+                }else if(index_seconds != -1 && index_minutes == -1){
                    constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " seconds " + (0) + " minutes ";
                    return constructed_command;
                 }
