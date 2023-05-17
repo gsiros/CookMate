@@ -107,6 +107,8 @@ export let voiceCommandFunctions = {
                    constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " seconds " + (0) + " minutes ";
                 }
 
+                return constructed_command;
+
                 //depending on the order of metrics choose appropriate place values and metrics from they array
                 //E.g. based on the above [30,30,15,30] you need to choose 15,30  
                 if(index_minutes < index_seconds ){
