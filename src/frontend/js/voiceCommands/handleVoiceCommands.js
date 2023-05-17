@@ -10,8 +10,7 @@ use.loadQnA()
 .catch(err => {
     console.log("Error: " + err + " while trying to load encoder");
 })
-
-// Map your commands to intent labels
+ 
 const intents = [
     'defrost',
     'reheat',
@@ -61,10 +60,10 @@ export let voiceCommandFunctions = {
     /**
      *  Figures the value of the metric to use in the command. 
      *  E.g. " reheat for 3 minutes and 30 seconds" 
-     *  this extracts 3 -> minutes and 30 -> seconds 
+     *  this extracts 3 -> minutes and 30 -> seconds. 
      * @param {*} intent the intent that was extracted before  
      * @param {*} command the initial command  
-     * @returns 
+     * @returns if the user doesn't specify the above returns null, else returns the simplified command. 
      */
     figureMetric(intent, command){
         intent = intent.toLowerCase(); 
