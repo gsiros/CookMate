@@ -58,18 +58,73 @@ export let voiceCommandFunctions = {
         }
     },
 
+    /**
+     *  Figures the value of the metric to use in the command. 
+     *  E.g. " reheat for 3 minutes and 30 seconds" 
+     *  this extracts 3 -> minutes and 30 -> seconds 
+     * @param {*} intent the intent that was extracted before  
+     * @param {*} command the initial command  
+     * @returns 
+     */
     figureMetric(intent, command){
+        intent = intent.toLowerCase(); 
+        command = command.toLowerCase(); 
+        let constructed_command = null; 
         switch (intent){
             case 'defrost':
             case 'reheat':
+                //can produce multiple entries 
                 let time_value = command.match(numberRegex);
-                time_value = time_value.push(0);
-                let minutes = command.includes('minutes') || command.includes('minute');
-                let seconds = command.includes('seconds') || command.includes('second');
-                return {time: time_value, watts: -1,metric:[minutes, seconds]};
+                //user did not specify time value
+                if(time_value == null){
+                    return null;
+                }
+                //metrics that come after have priority
+                //E.g. I want to set to 30 minutes and 30 seconds no in fact 15 minutes and 30 seconds 
+                let index_minutes = Math.max(
+                    findMaxIndex(command, 'min'), 
+                    findMaxIndex(command, 'mins'), 
+                    findMaxIndex(command, 'minute'), 
+                    findMaxIndex(command, 'minutes'), 
+                );
+
+                let index_seconds = Math.max(
+                    findMaxIndex(command, 'sec'), 
+                    findMaxIndex(command, 'secs'), 
+                    findMaxIndex(command, 'second'), 
+                    findMaxIndex(command, 'seconds'), 
+                );
+
+                //user specified time value but did not specify metric
+                if(index_minutes == -1 && index_seconds == -1){
+                    return null;
+                }
+                
+                //there is only one metric present 
+                if(index_minutes == -1){
+                   constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " minutes " + (0) + " seconds";
+                }else if(index_seconds == -1){
+                   constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " seconds " + (0) + " minutes ";
+                }
+
+                //depending on the order of metrics choose appropriate place values and metrics from they array
+                //E.g. based on the above [30,30,15,30] you need to choose 15,30  
+                if(index_minutes < index_seconds ){
+                   constructed_command = intent + ", for: " + (time_value[time_value.length - 2] || 0) + " minutes " + (time_value[time_value.length - 1] || 0) + " seconds";
+                }else{
+                   constructed_command = intent + ", for: " + (time_value[time_value.length - 2] || 0) + " seconds " + (time_value[time_value.length - 1] || 0) + " minutes ";
+                }
+
+                return constructed_command;
+
             case 'watt':
                 let watt_value = command.match(numberRegex);
-                return {watts: watt_value, time: -1};
+                //user did not specify watts 
+                if(watt_value == null){
+                    return null; 
+                }
+                constructed_command = "Setting watts to: " + watt_value[time_value.length - 1]; 
+                return constructed_command;
             case 'cancel':
                 console.log("Canceling operation");
                 break;
@@ -88,6 +143,19 @@ const dotProduct = (xs, ys) => {
   return xs.length === ys.length ?
     sum(zipWith((a, b) => a * b, xs, ys))
     : undefined;
+}
+
+function findMaxIndex(sentence, word) {
+  const words = sentence.split(" ");
+  let maxIndex = -1;
+
+  for (let i = 0; i < words.length; i++) {
+    if (words[i] === word && i > maxIndex) {
+      maxIndex = i;
+    }
+  }
+
+  return maxIndex;
 }
 
 // zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
