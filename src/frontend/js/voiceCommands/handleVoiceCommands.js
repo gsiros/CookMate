@@ -1,4 +1,6 @@
 
+
+
 let model = null; 
 
 
@@ -17,8 +19,10 @@ const intents = [
     'watt',
     'pause',
     'resume',
-    'cancel'
+    'cancel',
 ]; 
+
+const softmaxThreshold = 0.4; 
 
 const numberRegex = /\b(\d+)\b/g; // Matches any number
 
@@ -52,8 +56,12 @@ export let voiceCommandFunctions = {
                 scores.push(dotProduct(embed_query[i], embed_responses[j]));
                 }
             }
+            scores = softmax(scores);
             let index = scores.indexOf(Math.max(...scores)); 
-            return intents[index];
+            if(scores[index] >= softmaxThreshold) {
+                return intents[index];
+            }
+            return 'invalid';
         }catch(err){
             console.log("Error: " + err + " while extracting intent");
         }
@@ -179,6 +187,12 @@ const dotProduct = (xs, ys) => {
   return xs.length === ys.length ?
     sum(zipWith((a, b) => a * b, xs, ys))
     : undefined;
+}
+
+function softmax(arr) {
+    return arr.map(function(value,index) { 
+      return Math.exp(value) / arr.map( function(y /*value*/){ return Math.exp(y) } ).reduce( function(a,b){ return a+b })
+    })
 }
 
 function findMaxIndex(sentence, word) {

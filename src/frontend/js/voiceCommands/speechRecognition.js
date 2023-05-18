@@ -47,9 +47,14 @@ recognition.onresult = async (event) => {
 
     // Handle voice commands here
     const intent = await voiceCommandFunctions.extractIntent(transcript);
+    if(intent == 'invalid'){
+      speak("Command was not recognized try again");
+      return; 
+    }
     // handle intent screen and UI 
     let args = voiceCommandFunctions.figureMetric(intent, transcript);
-    
+   
+
     if(args == null  && intent != 'cancel'){
       speak("You need to provide appropriate metric for: " + intent + " operation");
       return; 
