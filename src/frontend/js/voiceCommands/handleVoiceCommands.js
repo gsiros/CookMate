@@ -15,7 +15,9 @@ const intents = [
     'defrost',
     'reheat',
     'watt',
-    'cancel',
+    'pause',
+    'resume',
+    'cancel'
 ]; 
 
 const numberRegex = /\b(\d+)\b/g; // Matches any number
@@ -68,7 +70,13 @@ export let voiceCommandFunctions = {
     figureMetric(intent, command){
         intent = intent.toLowerCase(); 
         command = command.toLowerCase(); 
-        let constructed_command = null; 
+        let args = {
+            command: null,
+            intent: null,
+            minutes: null,
+            seconds: null,
+            watt: null
+        }; 
         switch (intent){
             case 'defrost':
             case 'reheat':
@@ -101,23 +109,35 @@ export let voiceCommandFunctions = {
                 
                 //there is only one metric present 
                 if(index_minutes != -1 && index_seconds == -1){
-                   constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " minutes " + (0) + " seconds";
-                   return constructed_command;
+                   args.command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " minutes " + (0) + " seconds";
+                   args.intent = intent;
+                   args.minutes = time_value[time_value.length - 1] || 0;
+                   args.seconds = 0;
+                   return args;
                 }else if(index_seconds != -1 && index_minutes == -1){
-                   constructed_command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " seconds " + (0) + " minutes ";
-                   return constructed_command;
+                   args.command = intent + ", for: " + (time_value[time_value.length - 1] || 0) + " seconds " + (0) + " minutes ";
+                   args.intent = intent;
+                   args.minutes = 0;
+                   args.seconds = time_value[time_value.length - 1] || 0;
+                   return args;
                 }
 
 
                 //depending on the order of metrics choose appropriate place values and metrics from they array
                 //E.g. based on the above [30,30,15,30] you need to choose 15,30  
                 if(index_minutes < index_seconds ){
-                   constructed_command = intent + ", for: " + (time_value[time_value.length - 2] || 0) + " minutes " + (time_value[time_value.length - 1] || 0) + " seconds";
+                   args.command = intent + ", for: " + (time_value[time_value.length - 2] || 0) + " minutes " + (time_value[time_value.length - 1] || 0) + " seconds";
+                   args.intent = intent;
+                   args.minutes = time_value[time_value.length - 2] || 0;
+                   args.seconds = time_value[time_value.length - 1] || 0;
                 }else{
-                   constructed_command = intent + ", for: " + (time_value[time_value.length - 2] || 0) + " seconds " + (time_value[time_value.length - 1] || 0) + " minutes ";
+                   args.command = intent + ", for: " + (time_value[time_value.length - 2] || 0) + " seconds " + (time_value[time_value.length - 1] || 0) + " minutes ";
+                   args.intent = intent;
+                   args.minutes = time_value[time_value.length - 1] || 0;
+                   args.seconds = time_value[time_value.length - 2] || 0;
                 }
 
-                return constructed_command;
+                return args;
 
             case 'watt':
                 let watt_value = command.match(numberRegex);
@@ -125,11 +145,25 @@ export let voiceCommandFunctions = {
                 if(watt_value == null){
                     return null; 
                 }
-                constructed_command = "Setting watts to: " + watt_value[watt_value.length - 1]; 
-                return constructed_command;
+                args.command = "Setting power to: " + watt_value[watt_value.length - 1] + "watts."; 
+                args.intent = intent;
+                args.watt = watt_value[watt_value.length - 1];
+                return args;
             case 'cancel':
+                args.command = "Canceling operation.";
+                args.intent = intent;
                 console.log("Canceling operation");
-                break;
+                return args;
+                case 'pause':
+                args.command = "Pausing operation.";
+                args.intent = intent;
+                console.log("Pausing operation");
+                return args;
+            case 'resume':
+                args.command = "Resuming operation.";
+                args.intent = intent;
+                console.log("Resuming operation");
+                return args;
             default: 
                 console.log("Unknown intent");
         }

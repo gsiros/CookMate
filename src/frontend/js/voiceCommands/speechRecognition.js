@@ -48,14 +48,14 @@ recognition.onresult = async (event) => {
     // Handle voice commands here
     const intent = await voiceCommandFunctions.extractIntent(transcript);
     // handle intent screen and UI 
-    let constructed_command = voiceCommandFunctions.figureMetric(intent, transcript);
+    let args = voiceCommandFunctions.figureMetric(intent, transcript);
     
-    if(constructed_command == null  && intent != 'cancel'){
+    if(args == null  && intent != 'cancel'){
       speak("You need to provide appropriate metric for: " + intent + " operation");
       return; 
     }
 
-    speak(constructed_command)
+    speak(args.command);
 
   }
 };
