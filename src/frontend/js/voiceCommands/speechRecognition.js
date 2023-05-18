@@ -1,8 +1,8 @@
 import { voiceCommandFunctions } from "./handleVoiceCommands.js";
 
 //enable voice commands 
-const sequence1 = "Hey microwave";
-const sequence2 = "hey microwave";
+const sequence1 = "Hello microwave";
+const sequence2 = "hello microwave";
 //end voice commands 
 const endPhrase1 = "OK microwave";
 const endPhrase2 = "ok microwave";
@@ -55,8 +55,7 @@ recognition.onresult = async (event) => {
       return; 
     }
 
-    speak(args.command);
-
+    handleIntent(args);
   }
 };
 
@@ -90,4 +89,90 @@ function speak(text) {
     utterance.voice = englishVoice ; // Set the voice to a english voice if available
   }
   window.speechSynthesis.speak(utterance);
+}
+
+function handleIntent(args){
+
+
+  switch (args.intent) {
+    case 'reheat':
+      // Announce intent.
+      speak(args.command);
+      switchToReheatUI();
+      if(args.minutes == 0 && args.seconds == 0){
+        speak("The time needs to be set greater than 0 minutes and 0 seconds. Try again.");
+        return;
+      } else if(args.minutes < 0 || args.seconds < 0){
+        speak("The time cannot be set to negative. Try again.");
+        return;
+      }
+      minutesLeft = args.minutes;
+      secondsLeft = args.seconds;
+      refreshTimerDisplay();
+      // Delay for 1 second.
+      setTimeout(() => {}, 1000);
+      speak("Starting in 3 seconds...");
+      // Delay for 3 seconds.
+      setTimeout(() => {}, 3000);
+      speak("Starting now.");
+      startTimer();
+      break;
+    case 'defrost':
+      // Announce intent.
+      speak(args.command);
+      switchToDefrostUI();
+      if(args.minutes == 0 && args.seconds == 0){
+        speak("The time needs to be set greater than 0 minutes and 0 seconds. Try again.");
+        return;
+      } else if(args.minutes < 0 || args.seconds < 0){
+        speak("The time cannot be set to negative. Try again.");
+        return;
+      }
+      minutesLeft = args.minutes;
+      secondsLeft = args.seconds;
+      refreshTimerDisplay();
+      // Delay for 1 second.
+      setTimeout(() => {}, 1000);
+      speak("Starting in 3 seconds...");
+      // Delay for 3 seconds.
+      setTimeout(() => {}, 3000);
+      speak("Starting now.");
+      startTimer();
+      break;
+    case 'watt':
+      switchToPowerUI();
+      if(args.watt <  wattageLOW || args.watt > wattageHIGH){
+        speak("The power needs to be set greater than 600 watts and less than 1200 watts. Try again.");
+        return;
+      }
+      // Announce intent.
+      speak(args.command);
+      wattage = args.watt;
+      refreshPowerDisplay();
+      break;
+    case 'cancel':
+      if (inProgress) {
+        speak("Cancelling.");
+        clearTimer();
+      } else {
+        speak("There is no operation to cancel.");
+      }
+      break;
+    case 'resume':
+      if(inProgress){
+        speak("Resuming.");
+        resumeTimer();
+      } else {
+        speak("There is no operation to resume.");
+      }
+      break;
+    case 'pause':
+      if(inProgress){
+        speak("Pausing.");
+        pauseTimer();
+      } else {
+        speak("There is no operation to pause.");
+      }
+      break;
+  }
 }
