@@ -1,8 +1,8 @@
 import { voiceCommandFunctions } from "./handleVoiceCommands.js";
 
 //enable voice commands 
-const sequence1 = "Hello microwave";
-const sequence2 = "hello microwave";
+const sequence1 = "Hey microwave";
+const sequence2 = "hey microwave";
 //end voice commands 
 const endPhrase1 = "OK microwave";
 const endPhrase2 = "ok microwave";
