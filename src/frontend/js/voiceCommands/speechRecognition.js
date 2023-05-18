@@ -1,13 +1,13 @@
 import { voiceCommandFunctions } from "./handleVoiceCommands.js";
 
 //enable voice commands 
-const sequence1 = "Hello microwave";
-const sequence2 = "hello microwave";
+const sequence1 = "OK microwave";
+const sequence2 = "ok microwave";
+const sequence3 = "Okay microwave";
+const sequence4 = "okay microwave";
 //end voice commands 
-const endPhrase1 = "OK microwave";
-const endPhrase2 = "ok microwave";
-const endPhrase3 = "Okay microwave";
-const endPhrase4 = "okay microwave";
+const endPhrase1 = "deactivate";
+const endPhrase2 = "Deactivate";
 
 // Create speech recognition object
 const recognition = new webkitSpeechRecognition();
@@ -25,23 +25,23 @@ recognition.onresult = async (event) => {
 
   
   if (!voiceCommandsEnabled) {
-    if (transcript.includes(sequence1) || transcript.includes(sequence2)) {
+    if (transcript.includes(sequence1) || transcript.includes(sequence2) || transcript.includes(sequence3) || transcript.includes(sequence4)) {
       // Enable voice commands
       voiceCommandsEnabled = true;
-      speak("Voice commands are activated. To deactivate say okay microwave.");
+      speak("Voice commands are activated. To deactivate voice commands say 'deactivate'.");
     }
   } else {
     //check if user retries to activate voice commands 
-    if(transcript.includes(sequence1) || transcript.includes(sequence2)){
+    if(transcript.includes(sequence1) || transcript.includes(sequence2) || transcript.includes(sequence3) || transcript.includes(sequence4)){
       speak("Voice commands are already activated.");
       return; 
     }
 
     // Check if the user said the phrase to end voice commands
-    if (transcript.includes(endPhrase4) || transcript.includes(endPhrase3)|| transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
+    if (transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
       // Disable voice commands
       voiceCommandsEnabled = false;
-      speak("Voice commands are deactivated. To activate them say hello microwave.");
+      speak("Voice commands are deactivated. To activate them say 'okay microwave'.");
       return; 
     }
 
@@ -98,6 +98,8 @@ function speak(text) {
 
 function handleIntent(args){
 
+  // User feedback has been recorded, reload the sleep timer.
+  reloadSleepTimer();
 
   switch (args.intent) {
     case 'reheat':
@@ -111,16 +113,17 @@ function handleIntent(args){
         speak("The time cannot be set to negative. Try again.");
         return;
       }
-      minutesLeft = args.minutes;
-      secondsLeft = args.seconds;
+      minutesLeft = parseInt(args.minutes);
+      secondsLeft = parseInt(args.seconds);
       refreshTimerDisplay();
       // Delay for 1 second.
-      setTimeout(() => {}, 1000);
-      speak("Starting in 3 seconds...");
-      // Delay for 3 seconds.
-      setTimeout(() => {}, 3000);
-      speak("Starting now.");
-      startTimer();
+      setTimeout(() => {
+        speak("Starting in 3 seconds...");
+        // Delay for 3 seconds.
+        setTimeout(() => {
+          startTimer();
+        }, 5000);
+      }, 1000);
       break;
     case 'defrost':
       // Announce intent.
@@ -133,16 +136,17 @@ function handleIntent(args){
         speak("The time cannot be set to negative. Try again.");
         return;
       }
-      minutesLeft = args.minutes;
-      secondsLeft = args.seconds;
+      minutesLeft = parseInt(args.minutes);
+      secondsLeft = parseInt(args.seconds);
       refreshTimerDisplay();
       // Delay for 1 second.
-      setTimeout(() => {}, 1000);
-      speak("Starting in 3 seconds...");
-      // Delay for 3 seconds.
-      setTimeout(() => {}, 3000);
-      speak("Starting now.");
-      startTimer();
+      setTimeout(() => {
+        speak("Starting in 3 seconds...");
+        // Delay for 3 seconds.
+        setTimeout(() => {
+          startTimer();
+        }, 5000);
+      }, 1000);
       break;
     case 'watt':
       switchToPowerUI();
@@ -152,7 +156,7 @@ function handleIntent(args){
       }
       // Announce intent.
       speak(args.command);
-      wattage = args.watt;
+      wattage = parseInt(args.watt);
       refreshPowerDisplay();
       break;
     case 'cancel':
