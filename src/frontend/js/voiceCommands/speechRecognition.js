@@ -15,52 +15,57 @@ const recognition = new webkitSpeechRecognition();
 // Set language to English
 recognition.lang = 'en-US';
 
+// Flag to track if the API should be actively listening (only when the always on display is off)
+let voiceAPIActive = false;
 // Flag to track if voice commands are enabled
 let voiceCommandsEnabled = false;
 
 // Event handler for result event
 recognition.onresult = async (event) => {
-  const transcript = event.results[0][0].transcript;
-  console.log('Recognized english words:', transcript);
+  // Check if the API should be actively listening (meaning that the always on display was unlocked)
+  // else do nothing (wait till the always on display is unlocked). 
+  if(voiceAPIActive){
+    const transcript = event.results[0][0].transcript;
+    console.log('Recognized english words:', transcript);
 
+    if (!voiceCommandsEnabled) {
+      if (transcript.includes(sequence1) || transcript.includes(sequence2) || transcript.includes(sequence3) || transcript.includes(sequence4)) {
+        // Enable voice commands
+        voiceCommandsEnabled = true;
+        speak("Voice commands are activated. To deactivate voice commands say 'deactivate'.");
+      }
+    } else {
+      //check if user retries to activate voice commands 
+      if(transcript.includes(sequence1) || transcript.includes(sequence2) || transcript.includes(sequence3) || transcript.includes(sequence4)){
+        speak("Voice commands are already activated.");
+        return; 
+      }
   
-  if (!voiceCommandsEnabled) {
-    if (transcript.includes(sequence1) || transcript.includes(sequence2) || transcript.includes(sequence3) || transcript.includes(sequence4)) {
-      // Enable voice commands
-      voiceCommandsEnabled = true;
-      speak("Voice commands are activated. To deactivate voice commands say 'deactivate'.");
+      // Check if the user said the phrase to end voice commands
+      if (transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
+        // Disable voice commands
+        voiceCommandsEnabled = false;
+        speak("Voice commands are deactivated. To activate them say 'okay microwave'.");
+        return; 
+      }
+  
+      // Handle voice commands here
+      const intent = await voiceCommandFunctions.extractIntent(transcript);
+      if(intent == 'invalid'){
+        speak("Command was not recognized try again");
+        return; 
+      }
+      // handle intent screen and UI 
+      let args = voiceCommandFunctions.figureMetric(intent, transcript);
+     
+  
+      if(args == null  && intent != 'cancel'){
+        speak("You need to provide appropriate metric for: " + intent + " operation");
+        return; 
+      }
+  
+      handleIntent(args);
     }
-  } else {
-    //check if user retries to activate voice commands 
-    if(transcript.includes(sequence1) || transcript.includes(sequence2) || transcript.includes(sequence3) || transcript.includes(sequence4)){
-      speak("Voice commands are already activated.");
-      return; 
-    }
-
-    // Check if the user said the phrase to end voice commands
-    if (transcript.includes(endPhrase1) || transcript.includes(endPhrase2)) {
-      // Disable voice commands
-      voiceCommandsEnabled = false;
-      speak("Voice commands are deactivated. To activate them say 'okay microwave'.");
-      return; 
-    }
-
-    // Handle voice commands here
-    const intent = await voiceCommandFunctions.extractIntent(transcript);
-    if(intent == 'invalid'){
-      speak("Command was not recognized try again");
-      return; 
-    }
-    // handle intent screen and UI 
-    let args = voiceCommandFunctions.figureMetric(intent, transcript);
-   
-
-    if(args == null  && intent != 'cancel'){
-      speak("You need to provide appropriate metric for: " + intent + " operation");
-      return; 
-    }
-
-    handleIntent(args);
   }
 };
 
@@ -185,3 +190,16 @@ function handleIntent(args){
       break;
   }
 }
+
+function enable(){
+  voiceAPIActive = true;
+}
+
+function disable(){
+  voiceAPIActive = false;
+}
+
+export let customVoiceAPI = {
+  enable: enable,
+  disable: disable
+};
