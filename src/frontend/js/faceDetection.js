@@ -6,11 +6,13 @@ const alwaysOnDisplay = document.getElementById('alwaysOnDisplay');
 const alwaysonTime = document.getElementById('alwaysonTime');
 const unlockBtn = document.getElementById('unlockBtn');
 
+// Import custom API to enable voice command analyzing according to display state (locked-unlocked)
+import {customVoiceAPI} from './voiceCommands/speechRecognition.js';
 
 let sleepTimer = null; 
 let unlocked = false;
 const sleepInterval = 30000; // 30 seconds
-const scanForFaceInterval = 500; // 1 second
+const scanForFaceInterval = 1000; // 1 second
 
 let videoElement = null; 
 let model = null; 
@@ -84,11 +86,13 @@ async function detectFaces(){
 function turnOffAlwaysOnDisplay(){
 	overlayAlwaysOnDisplay.style.display = "none";
 	alwaysOnDisplay.style.display = "none";
+	customVoiceAPI.enable();
 }
 
 function turnOnAlwaysOnDisplay(){
 	overlayAlwaysOnDisplay.style.display = "block";
 	alwaysOnDisplay.style.display = "block";
+	customVoiceAPI.disable();
 }
 
 function updateTime() {
@@ -113,11 +117,11 @@ function reloadSleepTimer(){
 	clearTimeout(sleepTimer);
 	sleepTimer = setTimeout(() => {
 		if(timeout == null){
+			turnOnAlwaysOnDisplay();
 			unlocked = false;
 			if (stream) {
 				detectFaces();
 			}
-			turnOnAlwaysOnDisplay();
 		}
 	}, sleepInterval);  
 }
@@ -125,5 +129,3 @@ function reloadSleepTimer(){
 // Update time every second
 updateTime();
 setInterval(updateTime, 1000);
-
-

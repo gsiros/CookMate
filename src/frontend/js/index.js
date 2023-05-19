@@ -155,7 +155,7 @@ clickables.forEach((clickable) => {
 
 // Navigation bar mechancis:
 
-heatbutton.addEventListener('click', () => {
+function switchToReheatUI(){
     // User has given feedback, 
     // they are still using the microwave, 
     // reload sleep timer:
@@ -184,9 +184,13 @@ heatbutton.addEventListener('click', () => {
     wattinterface.style.display = "none";
 
     state = 0;
+}
+
+heatbutton.addEventListener('click', () => {
+    switchToReheatUI();
 });
 
-defrostbutton.addEventListener('click', () => {
+function switchToDefrostUI(){
     // User has given feedback, 
     // they are still using the microwave, 
     // reload sleep timer:
@@ -214,9 +218,13 @@ defrostbutton.addEventListener('click', () => {
     wattinterface.style.display = "none";
 
     state = 1;
+}
+
+defrostbutton.addEventListener('click', () => {
+    switchToDefrostUI();
 });
 
-wattbutton.addEventListener('click', () => {
+function switchToPowerUI(){
     // User has given feedback, 
     // they are still using the microwave, 
     // reload sleep timer:
@@ -246,9 +254,16 @@ wattbutton.addEventListener('click', () => {
     
     state = 2;
     lcdWattText.innerHTML = wattage;
+}
+
+wattbutton.addEventListener('click', () => {
+    switchToPowerUI();
 });
 
 // Timer UI backend:
+function refreshTimerDisplay(){
+    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);
+}
 
 addMoreTimeBtnLeft.addEventListener('click', () => {
     // User has given feedback, 
@@ -257,7 +272,7 @@ addMoreTimeBtnLeft.addEventListener('click', () => {
     reloadSleepTimer();
     // Increase the time by 1 minute:
     minutesLeft += 1;
-    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);
+    refreshTimerDisplay();
 });
 
 addMoreTimeBtnRight.addEventListener('click', () => {
@@ -272,7 +287,7 @@ addMoreTimeBtnRight.addEventListener('click', () => {
         secondsLeft = 0;
         minutesLeft += 1;
     }
-    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);
+    refreshTimerDisplay();
 });
 
 subMoreTimeBtnLeft.addEventListener('click', () => {
@@ -283,7 +298,7 @@ subMoreTimeBtnLeft.addEventListener('click', () => {
     // Decrease the time by 1 minute:
     if(minutesLeft != 0){
         minutesLeft -= 1;
-        lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+        refreshTimerDisplay();
     } else {
         showPopupDialog("Time cannot be less than 0 minutes.");
     }
@@ -305,7 +320,7 @@ subMoreTimeBtnRight.addEventListener('click', () => {
         } else {
             secondsLeft -= 1;
         }
-        lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+        refreshTimerDisplay();
     } else {
         showPopupDialog("Time cannot be less than 0 minutes.");
     }
@@ -322,7 +337,7 @@ modifierBtn1.addEventListener('click', () => {
         secondsLeft -= 60;
         minutesLeft += 1;
     }
-    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+    refreshTimerDisplay();
 });
 
 modifierBtn2.addEventListener('click', () => {
@@ -332,10 +347,10 @@ modifierBtn2.addEventListener('click', () => {
     reloadSleepTimer();
     // Increase minutesLeft by 1:
     minutesLeft += 1;
-    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft);        
+    refreshTimerDisplay();
 });
 
-clearBtn.addEventListener('click', () => {
+function clearTimer(){
     // User has given feedback, 
     // they are still using the microwave, 
     // reload sleep timer:
@@ -352,8 +367,33 @@ clearBtn.addEventListener('click', () => {
     // Reset the time:
     minutesLeft = 0;
     secondsLeft = 0;
-    lcdText.innerHTML = getRemainingTimeInClockFormat(minutesLeft, secondsLeft); 
+    refreshTimerDisplay();
+}
+
+clearBtn.addEventListener('click', () => {
+    clearTimer();
 });
+
+function startTimer(){
+    startCountdown();
+    cheangeToCountdownUI();
+    inProgress = true;
+}
+
+function pauseTimer(){
+    clearTimeout(timeout);
+    timeout = null;
+    startBtn.innerHTML = "RESUME";
+    // enable blinking:
+    enableBlinkingText();
+}
+
+function resumeTimer(){
+    startCountdown();
+    startBtn.innerHTML = "PAUSE";
+    // disable blinking:
+    disableBlinkingText();
+}
 
 startBtn.addEventListener('click', () => {
     // User has given feedback, 
@@ -363,29 +403,24 @@ startBtn.addEventListener('click', () => {
     // Start the timer:
     if(actsLikeStart){
         if(minutesLeft !=0 || secondsLeft != 0){
-            startCountdown();
-            cheangeToCountdownUI();
-            inProgress = true;
+            startTimer();
         } else {
             showPopupDialog("Please set a valid time first. The time needs to be greater than 00:00.")
         }
     } else {
         pausedState = !pausedState;
         if(pausedState){
-            clearTimeout(timeout);
-            timeout = null;
-            startBtn.innerHTML = "RESUME";
-            // enable blinking:
-            enableBlinkingText();
+            pauseTimer();
         } else {
-            startCountdown();
-            startBtn.innerHTML = "PAUSE";
-            // disable blinking:
-            disableBlinkingText();
+            resumeTimer();
         }   
     }
     
 });
+
+function refreshPowerDisplay(){
+    lcdWattText.innerHTML = wattage;
+}
 
 addMoreWattBtn.addEventListener('click', () => {
     // User has given feedback, 
@@ -395,7 +430,7 @@ addMoreWattBtn.addEventListener('click', () => {
     // Increase the wattage by step:
     if(wattage < wattageHIGH){
         wattage += wattageStep;
-        lcdWattText.innerHTML = wattage;
+        refreshPowerDisplay();
     } else {
         showPopupDialog("You have reached the maximum wattage available.")
     }
@@ -409,7 +444,7 @@ subMoreWattBtn.addEventListener('click', () => {
     // Decrease the wattage by step:
     if(wattage > wattageLOW){
         wattage -= wattageStep;
-        lcdWattText.innerHTML = wattage;
+        refreshPowerDisplay();
     } else {
         showPopupDialog("You have reached the minimum wattage available.")
     }
@@ -421,7 +456,7 @@ modifierWattBtn1.addEventListener('click', () => {
     // reload sleep timer:
     reloadSleepTimer();
     wattage = wattageLOW;
-    lcdWattText.innerHTML = wattageLOW;
+    refreshPowerDisplay();
 });
 
 modifierWattBtn2.addEventListener('click', () => {
@@ -430,7 +465,7 @@ modifierWattBtn2.addEventListener('click', () => {
     // reload sleep timer:
     reloadSleepTimer();
     wattage = wattageMEDIUM;
-    lcdWattText.innerHTML = wattageMEDIUM;
+    refreshPowerDisplay();
 });
 
 modifierWattBtn3.addEventListener('click', () => {
@@ -439,7 +474,7 @@ modifierWattBtn3.addEventListener('click', () => {
     // reload sleep timer:
     reloadSleepTimer();
     wattage = wattageHIGH;
-    lcdWattText.innerHTML = wattageHIGH;
+    refreshPowerDisplay();
 });
 
 dismissBtn.addEventListener('click', () => {
