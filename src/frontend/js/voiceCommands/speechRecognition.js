@@ -15,8 +15,6 @@ const recognition = new webkitSpeechRecognition();
 // Set language to English
 recognition.lang = 'en-US';
 
-// Flag to track if the API should be actively listening (only when the always on display is off)
-let voiceAPIActive = false;
 // Flag to track if voice commands are enabled
 let voiceCommandsEnabled = false;
 
@@ -24,7 +22,7 @@ let voiceCommandsEnabled = false;
 recognition.onresult = async (event) => {
   // Check if the API should be actively listening (meaning that the always on display was unlocked)
   // else do nothing (wait till the always on display is unlocked). 
-  if(voiceAPIActive){
+  if(VOICE_API_ACTIVE){
     const transcript = event.results[0][0].transcript;
     console.log('Recognized english words:', transcript);
 
@@ -190,16 +188,3 @@ function handleIntent(args){
       break;
   }
 }
-
-function enable(){
-  voiceAPIActive = true;
-}
-
-function disable(){
-  voiceAPIActive = false;
-}
-
-export let customVoiceAPI = {
-  enable: enable,
-  disable: disable
-};

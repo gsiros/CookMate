@@ -1,3 +1,4 @@
+VOICE_API_ACTIVE = false; // Global variable to control the voice API
 
 // Facial Recognition
 
@@ -5,9 +6,6 @@ const overlayAlwaysOnDisplay = document.getElementById('overlayAlwaysOnDisplay')
 const alwaysOnDisplay = document.getElementById('alwaysOnDisplay');
 const alwaysonTime = document.getElementById('alwaysonTime');
 const unlockBtn = document.getElementById('unlockBtn');
-
-// Import custom API to enable voice command analyzing according to display state (locked-unlocked)
-import {customVoiceAPI} from './voiceCommands/speechRecognition.js';
 
 let sleepTimer = null; 
 let unlocked = false;
@@ -86,13 +84,13 @@ async function detectFaces(){
 function turnOffAlwaysOnDisplay(){
 	overlayAlwaysOnDisplay.style.display = "none";
 	alwaysOnDisplay.style.display = "none";
-	customVoiceAPI.enable();
+	VOICE_API_ACTIVE = true;
 }
 
 function turnOnAlwaysOnDisplay(){
 	overlayAlwaysOnDisplay.style.display = "block";
 	alwaysOnDisplay.style.display = "block";
-	customVoiceAPI.disable();
+	VOICE_API_ACTIVE = false;
 }
 
 function updateTime() {
